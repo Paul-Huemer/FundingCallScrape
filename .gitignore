@@ -1,0 +1,42 @@
+# --- Secrets & local environment (never commit) ------------------------------
+.env
+.env.*
+*.key
+*.pem
+secrets.*
+
+# --- Python ------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# --- Local tools / editors ---------------------------------------------------
+# Claude Code settings, local preview config
+.claude/
+.vscode/
+.idea/
+*.code-workspace
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# --- Scraper cache: raw downloaded pages (~300 MB, rebuilt on every run) --------
+data/cache/*
+# ...except the AI-summary cache, so the weekly GitHub run doesn't re-pay for
+# summaries of calls it has already seen (only contains text about public calls)
+!data/cache/summaries.json
+
+# --- Scratch / backups -------------------------------------------------------
+*.bak
+*.bak.json
+*.tmp
+*.log
+/t.html
+
+# Kept on purpose (published / needed by the weekly update):
+#   dashboard/            -> the GitHub Pages site (incl. data.js)
+#   data/calls.json       -> same data as JSON
+#   data/history.json     -> when each call was first seen ("New" badges, "Newest" sort)

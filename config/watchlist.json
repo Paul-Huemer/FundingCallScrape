@@ -1,0 +1,594 @@
+{
+  "_comment": "Niche funders without a call database. Fields: id, name, funder, group, url (shown), check_url (scanned, optional), selector, deadline_patterns (regex with one date group), recurring_deadlines ['MM-DD'], rolling, closed_patterns, no_text_amount (do not read amounts from page text), never_parse_dates, ignore_default_closed, amount{min_eur,max_eur,funding_rate,note}, eligibility, summary, fit_reason, fit (high|medium|low -> score floor), tags, language. Verified 2026-10-02.",
+  "funders": [
+    {
+      "id": "zukunftsfonds-at",
+      "name": "Zukunftsfonds der Republik Österreich – Projektförderung",
+      "funder": "Zukunftsfonds der Republik Österreich",
+      "group": "Austrian foundations & public funds",
+      "url": "https://www.zukunftsfonds-austria.at/einreichung.php",
+      "rolling": true,
+      "ignore_default_closed": true,
+      "rhythm": "Rolling – no deadlines; submit ≥ 3 months before project start, board decides in order of receipt",
+      "amount": {
+        "max_eur": 50000,
+        "note": "per project and year (higher only by unanimous board decision)"
+      },
+      "eligibility": "Any natural or legal person in Austria or abroad – FH research groups eligible",
+      "summary": "Funds scientific, historical and educational projects on remembrance of National Socialism and other totalitarian regimes, human rights, tolerance and democracy with a link to Austria. Educational and pedagogical formats are explicitly eligible.",
+      "fit_reason": "History/remembrance and moral-courage games (cf. CATRINA, museum games) for schools fit the pedagogical project strand.",
+      "fit": "high",
+      "tags": [
+        "remembrance",
+        "history education",
+        "democracy",
+        "human rights",
+        "educational games"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "nationalfonds-at",
+      "name": "Nationalfonds der Republik Österreich – Projektförderung",
+      "funder": "Nationalfonds der Republik Österreich für Opfer des Nationalsozialismus",
+      "group": "Austrian foundations & public funds",
+      "url": "https://www.nationalfonds.org/antragstellung-und-abwicklung",
+      "recurring_deadlines": [
+        "02-01",
+        "04-01",
+        "09-01"
+      ],
+      "ignore_default_closed": true,
+      "rhythm": "Board (Kuratorium) submission deadlines every year on 1 February, 1 April and 1 September",
+      "amount": {
+        "note": "no fixed maximum published; 1/3 of the 2025–26 budget reserved for the priority topic"
+      },
+      "eligibility": "Institutions and organisations; projects on NS history, remembrance and education",
+      "summary": "Project funding for remembrance, research and education about National Socialism and its victims. Priority topic 2025/26: countering online disinformation that relativises the Holocaust – digital and educational formats welcome.",
+      "fit_reason": "Educational games and interactive formats against Holocaust disinformation match the current priority topic directly.",
+      "fit": "high",
+      "tags": [
+        "remembrance",
+        "disinformation",
+        "history education",
+        "digital formats"
+      ],
+      "language": "de",
+      "no_text_amount": true
+    },
+    {
+      "id": "fgoe",
+      "name": "Fonds Gesundes Österreich – Projektförderung & Calls",
+      "funder": "Fonds Gesundes Österreich (Gesundheit Österreich GmbH)",
+      "group": "Austrian foundations & public funds",
+      "url": "https://fgoe.org/einreichtermine_und_projekt-calls",
+      "deadline_patterns": [
+        "Einreichfrist der (?:Anträge|Kurzkonzepte) bis (\\d{2}\\.\\d{2}\\.\\d{4})",
+        "fixer Einreichtermin definiert wurde:\\s*(\\d{2}\\.\\d{2}\\.\\d{4})"
+      ],
+      "closed_patterns": [
+        "vorübergehend[^.]{0,80}schließt"
+      ],
+      "rhythm": "Programmes reopen after the 2027 work programme is adopted (expected early Dec 2026); projects ≥ €100k have one fixed date per year (2026: 16 March) – projects < €100k rolling",
+      "amount": {
+        "funding_rate": "up to 80% (exceptionally 100%)",
+        "note": "large-project track from €100,000; pure research not funded"
+      },
+      "eligibility": "Legal persons as project lead (FH eligible); health-promotion projects, not pure research",
+      "summary": "Austria's national health-promotion fund. Funds practical health-promotion projects; the 2026 call focused on psychosocial health of young people in times of increasing digitalisation.",
+      "fit_reason": "Game-based and digital health-promotion interventions (e.g. VR stress relief, playful wellbeing apps for youth) fit when delivered with a practice partner.",
+      "fit": "medium",
+      "tags": [
+        "health promotion",
+        "youth",
+        "mental health",
+        "digital wellbeing",
+        "serious games"
+      ],
+      "language": "de",
+      "no_text_amount": true
+    },
+    {
+      "id": "oenb-jubilaeumsfonds",
+      "name": "OeNB Jubiläumsfonds – Forschungsförderung",
+      "funder": "Oesterreichische Nationalbank (OeNB)",
+      "group": "Austrian foundations & public funds",
+      "url": "https://www.oenb.at/daten-und-forschung/forschungsfoerderung/jubilaeumsfonds.html",
+      "deadline_patterns": [
+        "\\d{2}\\.\\d{2}\\.\\d{4}\\s*(?:bis|–|-)\\s*(\\d{2}\\.\\d{2}\\.\\d{4})"
+      ],
+      "ignore_default_closed": true,
+      "rhythm": "Two submission windows per year (2026: 26.01.–18.03. and 27.07.–23.09.); next window expected ~late Jan–mid Mar 2027",
+      "amount": {
+        "min_eur": 50000,
+        "max_eur": 300000
+      },
+      "eligibility": "Austrian research institutions; only research relevant to central banking (19 thematic clusters)",
+      "summary": "The OeNB's anniversary fund supports research projects relevant to monetary policy, financial stability and the economy. Cluster 16 'Finanzbildung und Wirtschaftskompetenz' (financial literacy) is the relevant entry point.",
+      "fit_reason": "Only via financial-literacy research – e.g. a game-based learning intervention on money, inflation or the euro for schools, with an evaluation design.",
+      "fit": "medium",
+      "tags": [
+        "financial literacy",
+        "Finanzbildung",
+        "economic education",
+        "game-based learning"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "theodor-koerner-fonds",
+      "name": "Theodor Körner Fonds – Förderpreis Wissenschaft & Kunst",
+      "funder": "Theodor Körner Fonds",
+      "group": "Austrian foundations & public funds",
+      "url": "https://theodorkoernerfonds.at/Start.html",
+      "recurring_deadlines": [
+        "03-31"
+      ],
+      "ignore_default_closed": true,
+      "rhythm": "Every year 1 January – 31 March",
+      "amount": {
+        "max_eur": 5000,
+        "note": "prize/grant per person"
+      },
+      "eligibility": "Individuals only – highest degree ≤ 6 years ago, work in progress (e.g. lab PhD students / junior researchers)",
+      "summary": "Annual awards for ongoing scientific and artistic work by early-career researchers and artists in Austria, endowed with €5,000 each.",
+      "fit_reason": "Seed money for junior lab members' ongoing game or XR research projects.",
+      "fit": "low",
+      "tags": [
+        "early career",
+        "prize"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "ak-ooe-zukunftsfonds",
+      "name": "AK OÖ Zukunftsfonds „ARBEIT-MENSCHEN-DIGITAL“",
+      "funder": "Arbeiterkammer Oberösterreich",
+      "group": "Upper Austria · regional funders",
+      "url": "https://ooe.arbeiterkammer.at/ueberuns/arbeitmenschendigital/projekteinreichen/index.html",
+      "deadline_patterns": [
+        "Einreichrunde\\s*bis\\s*(\\d{1,2}\\.\\d{1,2}\\.\\d{4})"
+      ],
+      "closed_patterns": [
+        "Einreichungen[^.]{0,60}ausgesetzt"
+      ],
+      "rhythm": "Several submission rounds per year until end of 2028 (20th round: until 31.10.2026)",
+      "amount": {
+        "min_eur": 5000,
+        "max_eur": 200000,
+        "funding_rate": "50%",
+        "note": "total project costs ≤ €400k, max. 2 years"
+      },
+      "eligibility": "FHs explicitly eligible; projects must benefit employees in Upper Austria (company or works-council partner), no pure research",
+      "summary": "The Upper Austrian Chamber of Labour funds projects that help employees cope with digitalisation – training, participation and new digital tools at work.",
+      "fit_reason": "Serious games and playful training tools for employees of OÖ companies (e.g. AI literacy, safety, logistics like Logistify).",
+      "fit": "medium",
+      "tags": [
+        "digital skills",
+        "workplace learning",
+        "serious games",
+        "Upper Austria"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "land-ooe-wissenschaft",
+      "name": "Land OÖ Kultur – Förderung wissenschaftlicher Projekte",
+      "funder": "Land Oberösterreich, Direktion Kultur und Gesellschaft",
+      "group": "Upper Austria · regional funders",
+      "url": "https://www.land-oberoesterreich.gv.at/550554.htm",
+      "rolling": true,
+      "ignore_default_closed": true,
+      "never_parse_dates": true,
+      "rhythm": "Rolling – online application before project start",
+      "amount": {
+        "note": "no fixed maximum; project, staff and pro-rata overhead costs eligible"
+      },
+      "eligibility": "Researchers, associations and institutions based in Upper Austria; project ≥ 50% related to Upper Austria with public results",
+      "summary": "Upper Austria's culture department funds scholarly projects in the humanities, cultural and regional studies with a clear Upper Austrian focus and publicly accessible results.",
+      "fit_reason": "Regional history and heritage games or interactive installations (e.g. Pferdeeisenbahn, Linz city games) fit well.",
+      "fit": "medium",
+      "tags": [
+        "regional history",
+        "cultural heritage",
+        "Upper Austria"
+      ],
+      "language": "de",
+      "no_text_amount": true
+    },
+    {
+      "id": "land-ooe-erinnerungskultur",
+      "name": "Land OÖ – Gedenk- und Erinnerungskultur",
+      "funder": "Land Oberösterreich, Direktion Kultur und Gesellschaft",
+      "group": "Upper Austria · regional funders",
+      "url": "https://www.land-oberoesterreich.gv.at/550037.htm",
+      "rolling": true,
+      "ignore_default_closed": true,
+      "never_parse_dates": true,
+      "rhythm": "Rolling – online application before project start",
+      "amount": {
+        "note": "no fixed maximum published"
+      },
+      "eligibility": "Institutions and initiatives in Upper Austria",
+      "summary": "Funding for remembrance projects in Upper Austria – memorial sites, educational programmes and mediation formats about National Socialism and regional contemporary history.",
+      "fit_reason": "Digital/game-based mediation for Upper Austrian memorial sites (e.g. Mauthausen region) or school programmes.",
+      "fit": "medium",
+      "tags": [
+        "remembrance",
+        "memorial sites",
+        "education",
+        "Upper Austria"
+      ],
+      "language": "de",
+      "no_text_amount": true
+    },
+    {
+      "id": "tools-competition",
+      "name": "Tools Competition – EdTech prizes (Learning Engineering)",
+      "funder": "Learning Engineering Virtual Institute / Tools Competition",
+      "group": "Games, EdTech & tech-industry grants",
+      "url": "https://tools-competition.org/",
+      "deadline_patterns": [
+        "([A-Z][a-z]{2,8}\\.? \\d{1,2}, \\d{4})\\s+Deadline for Phase"
+      ],
+      "rhythm": "Annual cycle: Phase I abstracts ~October, Phase II full proposals ~January, winners ~June",
+      "amount": {
+        "min_eur": 50000,
+        "max_eur": 300000,
+        "currency": "USD",
+        "note": "Catalyst $50k · Growth $150k · Transform $300k, no co-funding"
+      },
+      "eligibility": "Worldwide – universities, non-profits and companies (3 of 4 tracks; the postsecondary track is US-only)",
+      "summary": "International competition funding digital learning tools and the research infrastructure around them (data, evaluation). Three prize tiers by project maturity; tracks for K-12 learning, assessment and AI-supported learning.",
+      "fit_reason": "Directly fits the lab's educational games and AI-in-classroom work (KIWi, climate games) – a learning game with a research/data component.",
+      "fit": "high",
+      "tags": [
+        "EdTech",
+        "educational games",
+        "learning engineering",
+        "K-12"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "epic-megagrants",
+      "name": "Epic MegaGrants (Unreal Engine)",
+      "funder": "Epic Games",
+      "group": "Games, EdTech & tech-industry grants",
+      "url": "https://www.unrealengine.com/en-US/megagrants",
+      "deadline_patterns": [
+        "Submission window:\\s*[A-Z][a-z]+ \\d{1,2}\\s*-\\s*([A-Z][a-z]+ \\d{1,2}, \\d{4})"
+      ],
+      "rhythm": "Submission cycles announced on the page (2026 cycles closed 4 Sep 2026; next expected early 2027)",
+      "amount": {
+        "min_eur": 5000,
+        "max_eur": 150000,
+        "currency": "USD",
+        "note": "typically $5k–75k, up to $150k; no co-funding"
+      },
+      "eligibility": "Game developers, creators, educators and degree-granting institutions worldwide",
+      "summary": "Epic Games funds projects built with Unreal Engine – games, XR, education, research and open-source tools. Grants are non-dilutive; Epic takes no rights.",
+      "fit_reason": "Unreal-based educational, museum or VR projects (e.g. VR heritage installations) qualify; education and research are explicit categories.",
+      "fit": "high",
+      "tags": [
+        "game engine",
+        "XR",
+        "educational games",
+        "Unreal"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "unity-for-humanity",
+      "name": "Unity for Humanity Grant",
+      "funder": "Unity Social Impact",
+      "group": "Games, EdTech & tech-industry grants",
+      "url": "https://unity.com/humanity",
+      "never_parse_dates": true,
+      "rhythm": "Annual – opens ~January, closes ~February (2026: closed 20 Feb 2026)",
+      "amount": {
+        "max_eur": 60000,
+        "currency": "USD",
+        "note": "$600k pool, ~10 winners (~$60k each)"
+      },
+      "eligibility": "Creators using Unity for social impact; universities have won before (non-US public bodies not explicitly ruled out)",
+      "summary": "Unity's annual grant for real-time 3D projects (games, XR, simulations) with positive social or environmental impact, including education and inclusion.",
+      "fit_reason": "Social-impact learning games and accessibility projects (e.g. BlindBits, climate games) built in Unity.",
+      "fit": "high",
+      "tags": [
+        "Unity",
+        "XR",
+        "social impact",
+        "educational games"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "nlnet-ngi",
+      "name": "NLnet – Open Internet Stack / NGI Zero open calls",
+      "funder": "NLnet Foundation (EU Next Generation Internet)",
+      "group": "Games, EdTech & tech-industry grants",
+      "url": "https://nlnet.nl/propose/",
+      "check_url": "https://nlnet.nl/",
+      "deadline_patterns": [
+        "Next deadline:?\\s*([A-Z][a-z]+ \\d{1,2}(?:st|nd|rd|th)?,? \\d{4})"
+      ],
+      "rhythm": "Every two months on the 3rd of odd months",
+      "amount": {
+        "min_eur": 5000,
+        "max_eur": 50000,
+        "funding_rate": "100%",
+        "note": "open-source software/standards only"
+      },
+      "eligibility": "Individuals, universities and organisations worldwide; results must be open source",
+      "summary": "Small, fast grants for open-source internet technology – libraries, tools, protocols, privacy and accessibility software.",
+      "fit_reason": "Fits only open-source tooling the lab builds (e.g. Spacehuddle, the ZIEGE game editor, accessible web components), not the games themselves.",
+      "fit": "low",
+      "tags": [
+        "open source",
+        "web technology"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "prix-ars",
+      "name": "Prix Ars Electronica & S+T+ARTS Prize – Open Call",
+      "funder": "Ars Electronica (with EU S+T+ARTS)",
+      "group": "International foundations & prizes",
+      "url": "https://ars.electronica.art/prix/en/opencall/",
+      "deadline_patterns": [
+        "[Dd]eadline:?\\s*(\\w+ \\d{1,2}, 20\\d\\d)"
+      ],
+      "rhythm": "Annual open call from January, deadline ~early March",
+      "amount": {
+        "max_eur": 20000,
+        "note": "Prix categories up to €10k; S+T+ARTS Prize 2 × €20k"
+      },
+      "eligibility": "Artists, researchers and institutions worldwide",
+      "summary": "International prize for media art and digital culture from Linz, plus the EU S+T+ARTS prize for innovation at the intersection of science, technology and the arts.",
+      "fit_reason": "Interactive installations, XR and playful media works (e.g. e-hackbrett, projection-mapping installations) are classic Prix submissions.",
+      "fit": "medium",
+      "tags": [
+        "media art",
+        "installations",
+        "prize",
+        "Linz"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "jacobs-cifar",
+      "name": "Jacobs Foundation CIFAR Research Fellowship",
+      "funder": "Jacobs Foundation & CIFAR",
+      "group": "International foundations & prizes",
+      "url": "https://cifar.ca/research-programs/jacobs-cifar-research-fellowship/",
+      "deadline_patterns": [
+        "(\\w+ \\d{1,2}, 20\\d\\d)\\s*:\\s*Application deadline"
+      ],
+      "rhythm": "Annual – opens ~late November, deadline ~early February",
+      "amount": {
+        "max_eur": 150000,
+        "currency": "CHF",
+        "note": "~CHF 150k over 3 years (unverified)"
+      },
+      "eligibility": "Early-career researchers (PhD within 10 years) at a host institution worldwide",
+      "summary": "Fellowships for early-career researchers studying child and youth development and learning, including learning technologies.",
+      "fit_reason": "A lab postdoc researching the learning effects of games (learning-science framing) could apply with the FH as host.",
+      "fit": "medium",
+      "tags": [
+        "learning science",
+        "early career",
+        "children"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "japan-prize",
+      "name": "Japan Prize – International Educational Media Competition",
+      "funder": "NHK",
+      "group": "International foundations & prizes",
+      "url": "https://www3.nhk.or.jp/jp-prize/english/",
+      "never_parse_dates": true,
+      "rhythm": "Annual call for entries ~April–June; games and apps accepted since 2023",
+      "amount": {
+        "note": "prize money (Grand Prix ~$5k, unverified)"
+      },
+      "eligibility": "Producers of educational media worldwide",
+      "summary": "NHK's international competition for educational media; the digital category accepts educational games and apps.",
+      "fit_reason": "Visibility and modest prize money for finished educational games (e.g. Klimaspiel, Ecopolis).",
+      "fit": "low",
+      "tags": [
+        "educational games",
+        "prize"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "cei-kep",
+      "name": "CEI Know-how Exchange Programme (KEP)",
+      "funder": "Central European Initiative",
+      "group": "Multinational programmes (CEI, Interreg)",
+      "url": "https://www.cei.int/open-calls",
+      "never_parse_dates": true,
+      "rhythm": "Annual call, deadline ~September (2026: 11 Sep)",
+      "amount": {
+        "max_eur": 40000,
+        "funding_rate": "50%"
+      },
+      "eligibility": "Lead from an EU CEI member (Austria eligible) with a beneficiary partner from a non-EU CEI country (e.g. Western Balkans, Moldova, Ukraine)",
+      "summary": "Co-funds the transfer of know-how and good practice from EU to non-EU CEI member states, including education and digital transformation.",
+      "fit_reason": "Transfer of educational-game methods to schools or universities in the Western Balkans or Ukraine.",
+      "fit": "low",
+      "tags": [
+        "capacity building",
+        "Western Balkans",
+        "Ukraine"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "alpine-space-small",
+      "name": "Interreg Alpine Space – small-scale projects",
+      "funder": "Interreg Alpine Space",
+      "group": "Multinational programmes (CEI, Interreg)",
+      "url": "https://www.alpine-space.eu/how-to-apply/",
+      "closed_patterns": [
+        "currently no call for small-scale projects"
+      ],
+      "rhythm": "Small-scale project calls announced irregularly; programme winding down until the post-2027 period",
+      "amount": {
+        "note": "small-scale projects, ERDF co-funding"
+      },
+      "eligibility": "Organisations in the Alpine Space area (Upper Austria eligible)",
+      "summary": "Transnational cooperation programme for the Alps; small-scale projects test ideas on climate, environment, governance and innovation.",
+      "fit_reason": "Climate-education or tourism games for Alpine regions with partners from DE/IT/SI/CH/FR.",
+      "fit": "low",
+      "tags": [
+        "Interreg",
+        "Alps",
+        "climate"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "erasmus-ka220-sch",
+      "name": "Erasmus+ KA220-SCH Cooperation Partnerships – School education",
+      "funder": "European Commission via OeAD (Erasmus+ national agency Austria)",
+      "group": "Erasmus+ · OeAD (national agency)",
+      "url": "https://erasmusplus.oead.at/de/schulbildung/kooperationspartnerschaften/antragstellung",
+      "deadline_patterns": [
+        "Antragsfrist\\s+(.{0,60}?\\d{4})"
+      ],
+      "rhythm": "One submission round per year in Austria, usually early March (2026: 5 March); the new deadline appears once the 2027 Programme Guide is published (~November)",
+      "amount": {
+        "min_eur": 120000,
+        "max_eur": 400000,
+        "funding_rate": "100% (lump sum)",
+        "note": "lump sum €120k / €250k / €400k"
+      },
+      "eligibility": "Any organisation active in the field (FHs can lead or partner); min. 2 (KA210) / 3 (KA220) organisations from different programme countries",
+      "summary": "Transnational projects that develop, transfer or implement innovative practices – e.g. digital learning materials, teacher training, open educational resources. Submitted to the Austrian national agency (not listed on the EU portal).",
+      "fit_reason": "Classic vehicle for co-developing and piloting educational games with schools and universities across Europe, including teacher-training materials.",
+      "fit": "high",
+      "tags": [
+        "Erasmus+",
+        "educational games",
+        "schools",
+        "OER"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "erasmus-ka220-hed",
+      "name": "Erasmus+ KA220-HED Cooperation Partnerships – Higher education",
+      "funder": "European Commission via OeAD (Erasmus+ national agency Austria)",
+      "group": "Erasmus+ · OeAD (national agency)",
+      "url": "https://erasmusplus.oead.at/de/hochschulbildung/kooperationen/kooperationspartnerschaften/antragstellung",
+      "deadline_patterns": [
+        "Antragsfrist\\s+(.{0,60}?\\d{4})"
+      ],
+      "rhythm": "One submission round per year in Austria, usually early March (2026: 5 March); the new deadline appears once the 2027 Programme Guide is published (~November)",
+      "amount": {
+        "min_eur": 120000,
+        "max_eur": 400000,
+        "funding_rate": "100% (lump sum)",
+        "note": "lump sum €120k / €250k / €400k"
+      },
+      "eligibility": "Any organisation active in the field (FHs can lead or partner); min. 2 (KA210) / 3 (KA220) organisations from different programme countries",
+      "summary": "Transnational projects that develop, transfer or implement innovative practices – e.g. digital learning materials, teacher training, open educational resources. Submitted to the Austrian national agency (not listed on the EU portal).",
+      "fit_reason": "Classic vehicle for co-developing and piloting educational games with schools and universities across Europe, including teacher-training materials.",
+      "fit": "high",
+      "tags": [
+        "Erasmus+",
+        "educational games",
+        "schools",
+        "OER"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "erasmus-ka220-you",
+      "name": "Erasmus+ KA220-YOU Cooperation Partnerships – Youth",
+      "funder": "European Commission via OeAD (Erasmus+ national agency Austria)",
+      "group": "Erasmus+ · OeAD (national agency)",
+      "url": "https://erasmusplus.oead.at/de/jugend/kooperationspartnerschaften/antragstellung",
+      "deadline_patterns": [
+        "Antragsfrist\\s+(.{0,60}?\\d{4})"
+      ],
+      "rhythm": "One submission round per year in Austria, usually early March (2026: 5 March); the new deadline appears once the 2027 Programme Guide is published (~November)",
+      "amount": {
+        "min_eur": 120000,
+        "max_eur": 400000,
+        "funding_rate": "100% (lump sum)",
+        "note": "lump sum €120k / €250k / €400k"
+      },
+      "eligibility": "Any organisation active in the field (FHs can lead or partner); min. 2 (KA210) / 3 (KA220) organisations from different programme countries",
+      "summary": "Transnational projects that develop, transfer or implement innovative practices – e.g. digital learning materials, teacher training, open educational resources. Submitted to the Austrian national agency (not listed on the EU portal).",
+      "fit_reason": "Classic vehicle for co-developing and piloting educational games with schools and universities across Europe, including teacher-training materials.",
+      "fit": "high",
+      "tags": [
+        "Erasmus+",
+        "educational games",
+        "schools",
+        "OER"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "erasmus-ka220-adu",
+      "name": "Erasmus+ KA220-ADU Cooperation Partnerships – Adult education",
+      "funder": "European Commission via OeAD (Erasmus+ national agency Austria)",
+      "group": "Erasmus+ · OeAD (national agency)",
+      "url": "https://erasmusplus.oead.at/de/erwachsenenbildung/kooperationspartnerschaften/antragstellung",
+      "deadline_patterns": [
+        "Antragsfrist\\s+(.{0,60}?\\d{4})"
+      ],
+      "rhythm": "One submission round per year in Austria, usually early March (2026: 5 March); the new deadline appears once the 2027 Programme Guide is published (~November)",
+      "amount": {
+        "min_eur": 120000,
+        "max_eur": 400000,
+        "funding_rate": "100% (lump sum)",
+        "note": "lump sum €120k / €250k / €400k"
+      },
+      "eligibility": "Any organisation active in the field (FHs can lead or partner); min. 2 (KA210) / 3 (KA220) organisations from different programme countries",
+      "summary": "Transnational projects that develop, transfer or implement innovative practices – e.g. digital learning materials, teacher training, open educational resources. Submitted to the Austrian national agency (not listed on the EU portal).",
+      "fit_reason": "Classic vehicle for co-developing and piloting educational games with schools and universities across Europe, including teacher-training materials.",
+      "fit": "high",
+      "tags": [
+        "Erasmus+",
+        "educational games",
+        "schools",
+        "OER"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "erasmus-ka210-sch",
+      "name": "Erasmus+ KA210-SCH Small-scale Partnerships – School education",
+      "funder": "European Commission via OeAD (Erasmus+ national agency Austria)",
+      "group": "Erasmus+ · OeAD (national agency)",
+      "url": "https://erasmusplus.oead.at/de/schulbildung/kleinere-partnerschaften/antragstellung",
+      "deadline_patterns": [
+        "Antragsfrist\\s+(.{0,60}?\\d{4})"
+      ],
+      "rhythm": "One submission round per year in Austria, usually early March (2026: 5 March); the new deadline appears once the 2027 Programme Guide is published (~November)",
+      "amount": {
+        "min_eur": 30000,
+        "max_eur": 60000,
+        "funding_rate": "100% (lump sum)",
+        "note": "lump sum €30k or €60k"
+      },
+      "eligibility": "Any organisation active in the field (FHs can lead or partner); min. 2 (KA210) / 3 (KA220) organisations from different programme countries",
+      "summary": "Small partnerships for newcomers and grassroots organisations to exchange practices and run small projects in school education.",
+      "fit_reason": "Classic vehicle for co-developing and piloting educational games with schools and universities across Europe, including teacher-training materials.",
+      "fit": "medium",
+      "tags": [
+        "Erasmus+",
+        "educational games",
+        "schools",
+        "OER"
+      ],
+      "language": "de"
+    }
+  ]
+}

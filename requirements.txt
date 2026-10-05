@@ -1,0 +1,5 @@
+requests>=2.31
+beautifulsoup4>=4.12
+lxml>=5.0
+# Optional: AI-written summaries (used only when ANTHROPIC_API_KEY or an `ant auth login` profile is available)
+anthropic>=0.70

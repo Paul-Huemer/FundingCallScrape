@@ -1,0 +1,85 @@
+# Weekly funding-call update + GitHub Pages deployment.
+#
+# - Every Monday 05:00 UTC (07:00 Vienna summer time / 06:00 winter time) the scraper runs,
+#   commits the refreshed data (dashboard/data.js, data/*.json) and republishes the site.
+# - "Run workflow" on the Actions tab starts an update by hand.
+# - Pushing changes to the dashboard redeploys the site without scraping.
+#
+# Optional: add a repository secret ANTHROPIC_API_KEY for English AI summaries.
+
+name: Update funding calls
+
+on:
+  schedule:
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "dashboard/**"
+      - ".github/workflows/update.yml"
+
+permissions:
+  contents: write     # commit the refreshed data
+  pages: write        # deploy GitHub Pages
+  id-token: write
+
+concurrency:
+  group: funding-update
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scraper
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PYTHONIOENCODING: utf-8
+        run: python -m scraper.main --fresh
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dashboard/data.js data/calls.json data/history.json data/cache/summaries.json
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Weekly funding-call update $(date -u +%F)"
+            git push
+          fi
+
+  deploy:
+    needs: scrape
+    # runs after a scrape, and on its own for dashboard pushes (scrape is skipped then)
+    if: ${{ always() && (needs.scrape.result == 'success' || needs.scrape.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main          # includes the data commit made by the scrape job
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dashboard
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
