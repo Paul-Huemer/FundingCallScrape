@@ -1,8 +1,8 @@
-/* DML Funding Radar – renders window.DML_DATA (written by `python -m scraper.main`). */
+/* Funding Radar – renders window.DML_DATA (written by `python -m scraper.main`). */
 (() => {
   "use strict";
 
-  const DATA = window.DML_DATA || { calls: [], generated_at: null, lab: {}, areas: [] };
+  const DATA = window.DML_DATA || { calls: [], generated_at: null, topics: [] };
   const DAY = 86400000;
   const FIT_MIN = 65;           // calls scoring below this stay hidden until "Show lower-fit calls"
   const TODAY = new Date(new Date().toDateString());
@@ -129,12 +129,12 @@
     setSources(cur);
   }
 
-  // ------------------------------------------------------------------ topics (lab research areas, coloured like digitalmedialab.at)
+  // ------------------------------------------------------------------ topics (lab research areas)
   const TOPICS = (DATA.topics || []).filter((t) => t.key);
   const topicShort = Object.fromEntries(TOPICS.map((t) => [t.key, t.short]));
   const topicLabel = Object.fromEntries(TOPICS.map((t) => [t.key, t.label]));
-  /** The lab's research areas as shown on digitalmedialab.at/research, with their colours and point-and-line icons.
-   *  Each groups one or more of the scraper's topic keys; "themes" are cross-cutting topics without a DML area. */
+  /** The lab's research areas, with their colours and point-and-line icons.
+   *  Each groups one or more of the scraper's topic keys; "themes" are cross-cutting topics without a lab area. */
   const AREAS = [
     { key: "vision", name: "Visual Computing", topics: ["vision"],
       icon: { vb: "0 0 66.81 68.82", c: [[39.3, 4.24], [40.59, 64.58], [4.24, 35.13], [62.57, 28.95]], r: 4.24,
@@ -163,7 +163,7 @@
       + c.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="${r}"/>`).join("") + "</svg>";
   }
   const topicVar = (t) => (areaOf[t] ? `style="--c: var(--area-${areaOf[t].key})"` : "");
-  /** The DML research areas a call fits (coloured, site order), then its cross-cutting themes (grey). */
+  /** The lab research areas a call fits (coloured, site order), then its cross-cutting themes (grey). */
   function areaTagsHTML(c) {
     const ts = c.topics || [];
     const areas = AREAS.filter((a) => a.topics.some((t) => ts.includes(t))).map((a) => {
@@ -173,7 +173,7 @@
     const themes = THEMES.filter((t) => ts.includes(t)).map((t) => `<span class="tag tag--neutral" title="${esc(topicLabel[t] || t)}">${esc(topicShort[t] || t)}</span>`);
     return areas.length || themes.length ? `<span class="call__tags">${[...areas, ...themes].join("")}</span>` : "";
   }
-  /** Readable label for the selected topics: whole areas by their DML name, otherwise the single topics. */
+  /** Readable label for the selected topics: whole areas by their area name, otherwise the single topics. */
   function topicsLabel() {
     const parts = [], left = new Set(state.topics);
     AREAS.forEach((a) => { if (a.topics.length > 1 && a.topics.every((t) => left.has(t))) { parts.push(a.name); a.topics.forEach((t) => left.delete(t)); } });
@@ -452,25 +452,6 @@
     if (opener && document.body.contains(opener)) opener.focus();
   }
 
-  function openProfile() {
-    const lab = DATA.lab || {};
-    const report = Object.entries(DATA.sources_report || {});
-    const failed = report.filter(([, v]) => !v.ok);
-    $("#profileBody").innerHTML = `
-      <p>The radar collects funding calls from Austrian, EU and international funders every Monday and keeps those that fit the <b>${esc(lab.name || "Digital Media Lab")}</b>.</p>
-      <p class="muted">${esc(lab.one_liner)}</p>
-      <h3>Research areas used for matching</h3>
-      <ul class="area-list">${AREAS.map((a) => `<li style="--c: var(--area-${a.key})"><span class="area__tile">${iconSVG(a.icon)}</span><span><b>${esc(a.name)}</b><br><span class="small muted">${esc(a.topics.map((t) => topicShort[t] || t).join(" · "))}</span></span></li>`).join("")}</ul>
-      <p class="small muted" style="margin-top:10px">Cross-cutting themes: ${esc(THEMES.map((t) => topicShort[t] || t).join(" · "))}</p>
-      <h3>How the fit score works</h3>
-      <p class="small">Each call's title and text are matched against the area keywords in <code>config/lab_profile.json</code>. Title hits count most, generic words less, and off-topic terms subtract. Educational games are the lab's core niche and get a bonus. Calls where research institutions can't apply directly are marked <i>Partner role only</i>. Calls scoring below ${FIT_MIN} are hidden; <i>Show lower-fit calls</i> at the end of the list reveals them.</p>
-      <details class="more"><summary>Sources in this run${failed.length ? ` · ${failed.length} failed` : ""}</summary>
-        <ul class="plain-list">${report.map(([k, v]) => `<li><b>${esc(k)}</b>: ${v.ok ? `${v.found} scanned` : "failed – " + esc(v.error)}</li>`).join("")}</ul>
-        <p class="small muted" style="margin-top:10px">${DATA.stats ? `${DATA.stats.collected} calls collected → ${DATA.stats.unique} unique → ${DATA.stats.relevant} relevant. ` : ""}Summaries: ${DATA.summary_mode === "ai" ? "written by Claude" : "extracted from the call text"}.</p>
-      </details>`;
-    $("#profileDlg").showModal();
-  }
-
   // ------------------------------------------------------------------ CSV
   function exportCSV() {
     const list = filtered().sort(byDeadline);
@@ -482,7 +463,7 @@
     const csv = [cols.map((c) => q(c[0])).join(";"), ...list.map((c) => cols.map(([, fn]) => q(fn(c))).join(";"))].join("\r\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" }));
-    a.download = `dml-funding-calls-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `funding-calls-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   }
@@ -597,8 +578,6 @@
   });
   $("#drawerClose").addEventListener("click", closeDrawer);
   $("#scrim").addEventListener("click", () => { if (!$("#drawer").hidden) closeDrawer(); setFilters(false); });
-  $("#profileBtn").addEventListener("click", openProfile);
-  $$("[data-close]").forEach((b) => b.addEventListener("click", () => b.closest("dialog").close()));
 
   // URL options: ?view=table  ?sort=…  ?topic=…  ?q=…  ?source=<prefix> (repeatable)  #call=<id>
   const params = new URLSearchParams(location.search);

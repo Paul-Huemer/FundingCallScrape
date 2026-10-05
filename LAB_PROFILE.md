@@ -4,7 +4,7 @@
 
 ## Who we are
 
-The **Digital Media Lab (DML)** is a research group in the Department of Digital Media at **FH Oberösterreich (University of Applied Sciences Upper Austria), School of Informatics, Communication and Media, Campus Hagenberg**. Andreas Stöckl heads the lab. It has about 12 professors and senior researchers and about 12 R&D staff. The lab calls its own focus "avant-garde and intuitive digital interaction modes, leveraging the power of playful mechanisms". It works with partners in media psychology and usability.
+The **Digital Media Lab (DML)** is a research group in the Department of Digital Media at **FH Oberösterreich (University of Applied Sciences Upper Austria), School of Informatics, Communication and Media, Campus Hagenberg**. It has about 12 professors and senior researchers and about 12 R&D staff. The lab calls its own focus "avant-garde and intuitive digital interaction modes, leveraging the power of playful mechanisms". It works with partners in media psychology and usability.
 
 **Applicant type:** University of applied sciences (Fachhochschule) or research institution in Austria (Upper Austria). This is eligible for almost all FFG, FWF, OeAD and EU instruments. For company-only instruments (e.g. FFG Basisprogramm, Innovationsscheck), the lab joins as research partner or subcontractor.
 

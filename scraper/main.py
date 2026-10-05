@@ -98,7 +98,9 @@ def run(args) -> dict:
         "calls": [public_record(c) for c in kept],
     }
     save_json(ROOT / "data" / "calls.json", out)
-    js = "window.DML_DATA = " + json.dumps(out, ensure_ascii=False) + ";\n"
+    # The site is public: data.js carries only what the dashboard shows (no lab profile, run report or stats).
+    site = {k: out[k] for k in ("generated_at", "topics", "calls")}
+    js = "window.DML_DATA = " + json.dumps(site, ensure_ascii=False) + ";\n"
     (ROOT / "dashboard").mkdir(exist_ok=True)
     (ROOT / "dashboard" / "data.js").write_text(js, encoding="utf-8")
     log.info("wrote data/calls.json and dashboard/data.js (%d calls)", len(kept))

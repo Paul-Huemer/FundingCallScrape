@@ -4,7 +4,7 @@ This tool scrapes research and project funding calls and keeps those that fit th
 
 * **Lab profile:** [LAB_PROFILE.md](LAB_PROFILE.md) (readable) and [config/lab_profile.json](config/lab_profile.json) (used for matching)
 * **Dashboard:** the shared site `https://paul-huemer.github.io/FundingCallScrape/`, or locally: double-click **`run.bat`** (it opens `dashboard/index.html`).
-* **Data:** `data/calls.json` (also written as `dashboard/data.js`) and `data/history.json`, which records when each call was first found.
+* **Data:** `data/calls.json` (the calls, lab profile and run report; the dashboard's `dashboard/data.js` gets only the calls and topics) and `data/history.json`, which records when each call was first found.
 
 ## Getting the newest calls
 
@@ -21,41 +21,28 @@ python -m scraper.main --fresh
 
 ## Sharing with colleagues (GitHub Pages)
 
-One-time setup on github.com, in the repository `Paul-Huemer/FundingCallScrape`:
-1. Push this folder (see below).
-2. **Settings → Pages → Build and deployment → Source: "GitHub Actions".**
-3. *Optional:* **Settings → Secrets and variables → Actions → New repository secret** `ANTHROPIC_API_KEY`, for English AI summaries.
-4. **Actions → Update funding calls → Run workflow** once. The site then appears at `https://paul-huemer.github.io/FundingCallScrape/`.
+The code is already on GitHub in the repository `Paul-Huemer/FundingCallScrape`. The site goes live after this one-time setup on github.com:
+1. **Settings → Pages → Build and deployment → Source: "GitHub Actions".**
+2. *Optional:* **Settings → Secrets and variables → Actions → New repository secret** `ANTHROPIC_API_KEY`, for English AI summaries. The key is stored encrypted by GitHub and is never written to the repository or the site.
+3. **Actions → Update funding calls → Run workflow** once. The site then appears at `https://paul-huemer.github.io/FundingCallScrape/`. Until then, that link shows "404".
 
-What the published site contains:
-* Only the `dashboard/` folder (HTML, CSS, JS and `data.js`).
-* The data is public information from the funders' websites.
-* E-mail addresses and phone numbers of contact persons are removed before publishing (`public_record()` in `scraper/main.py`).
-* The page asks search engines not to index it (`noindex`).
+After that, every push to `main` that changes `dashboard/` republishes the site, and the Monday run refreshes the data.
 
-Not committed (`.gitignore`):
-* The 300 MB page cache.
-* Local Claude/editor settings.
-* Python caches.
-* Any `.env` or key files.
+### What is public
 
-Two things to know:
-* **The site is public:** GitHub Pages sites are public on the internet, even if the repository is private (private Pages needs GitHub Enterprise). Anyone with the link can open it.
-* **Personal settings stay personal:** research-area selection, stars and view settings are stored only in each person's browser.
+**The repository is public.** Everything committed can be read by anyone on github.com and may be indexed by search engines:
+* The code, the configuration and the lab profile (`LAB_PROFILE.md`, `config/lab_profile.json`), including the research partners, past funders and the "which calls fit us best" priorities.
+* The scraped data (`data/calls.json`, `dashboard/data.js`, `data/history.json`).
 
-First push (from this folder):
+**The site is public too.** It contains only the `dashboard/` folder (HTML, CSS, JS and `data.js`): no DML logo, no lab profile, no run report. `data.js` holds just the update date, the topic list and the calls. Anyone with the link can open it, but the page asks search engines not to index it (`noindex`).
 
-```bash
-git add -A
-```
+What is kept out:
+* **Contact details:** e-mail addresses and phone numbers of contact persons on funders' pages are removed before the data is written (`public_record()` in `scraper/main.py`). The rest of the data is public information from the funders' websites.
+* **Secrets:** no API keys are stored in the code. The Anthropic key comes from your environment variable locally, or from the encrypted repository secret on GitHub.
+* **Not committed (`.gitignore`):** the 300 MB page cache, local Claude/editor settings, Python caches, and any `.env` or key files.
+* **Personal settings:** research-area selection, stars and view settings are stored only in each person's browser.
 
-```bash
-git commit -m "Funding Radar: scraper, dashboard, weekly update"
-```
-
-```bash
-git push -u origin main
-```
+To keep the lab profile and data private, make the repository private (**Settings → General → Danger Zone → Change visibility**). GitHub Pages for a private repository needs a paid plan (GitHub Pro, Team or Enterprise), and the site itself stays public unless you use GitHub Enterprise Cloud's access control.
 
 ### Setup and options
 
@@ -149,7 +136,7 @@ Calls scoring under 20 are dropped. The dashboard shows ≥ 60 as *Strong*, ≥ 
 
 ## Dashboard features
 
-The design follows [digitalmedialab.at](https://digitalmedialab.at): the DML logo in a white header, Inter, black type, soft white cards, and research-area tags in the site's pastel colours.
+The design follows [digitalmedialab.at](https://digitalmedialab.at): a white header, Inter, black type, soft white cards, and research-area tags in the site's pastel colours. The public site carries no DML logo and no lab profile.
 
 * **Filter sidebar** (on narrow screens, the **Filter** button opens it as a sheet). It holds every filter:
   * **Research area:** the six areas from [digitalmedialab.at/research](https://digitalmedialab.at/research), each with its colour and point-and-line icon. Selecting an area shows every call in any of its topics: Visual Computing (computer vision), Intelligent Web Applications (AI & LLMs), Games and Playful Experiences (serious games, educational games, installations & heritage), User Interfaces (HCI & UX, XR), Smart and Tangible, and Data Visualization. Areas with several topics open sub-pills to narrow down. Education, Society & health and Topic-open are listed below as *cross-cutting themes*. Alt-click selects only one area. The selection is remembered in each browser. Link: `?topic=ai&topic=hci`. The area grouping lives in `AREAS` at the top of `dashboard/app.js`.
@@ -161,11 +148,10 @@ The design follows [digitalmedialab.at](https://digitalmedialab.at): the DML log
 * **Active filters:** a line above the results shows the count and each active filter as a chip. Click a chip to remove it.
 * **Cards:** deadline, source, title, a two-line summary, a coloured tag for each DML research area the call fits (grey tags for cross-cutting themes), and the time left. Calls closing within 30 days are shown in red or orange. *Partner role only* only appears when it applies. Funding per project sits on the right, and "≈" marks an amount estimated from the text. Click a card for its details. Monitored funders have dashed cards that show their usual call rhythm.
 * **Detail drawer:** funding and deadline facts, summary, why the call fits, who can apply, research areas, the official call link and a collapsible excerpt of the call text. Deep links work, e.g. `index.html#call=eu:CREA-MEDIA-2027-DEVVGIM`.
-* **About** (ⓘ in the header): the lab profile, how the fit score works, and which sources ran or failed.
 * **Link options:** `?q=lernspiel`, `?source=Erasmus` (repeatable, prefix match), `?view=table`, `?sort=fit|newest|amount|deadline|title|source`.
 * **Other:** stars are saved per browser; mobile layout.
 
 ## Known limits
 
 * Some EU topics (e.g. Creative Europe lump sums, MSCA unit costs) state the per-project amount only in the call-document PDF. These show **Not stated – see call document**. AI summaries do not invent amounts.
-* Scrapers depend on page structure. A broken source is logged, listed in the dashboard's About dialog under *Sources in this run*, and does not stop the other sources.
+* Scrapers depend on page structure. A broken source is logged (see the workflow run under *Actions*, or the console locally), recorded under `sources_report` in `data/calls.json`, and does not stop the other sources.
