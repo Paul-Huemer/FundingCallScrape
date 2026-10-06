@@ -193,6 +193,12 @@ kbd { font: 500 11px var(--font); color: var(--text-3); border: 1px solid var(--
 .call__amount .v { display: block; font-size: 20px; font-weight: 700; letter-spacing: -.02em; line-height: 1.2; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .call__amount .v.none { font-size: 14px; font-weight: 500; color: var(--text-3); letter-spacing: 0; }
 .call__amount .l { display: block; font-size: 12px; color: var(--text-3); margin-top: 2px; }
+/* a whole-call budget must never pass for a per-project amount: greyed value + amber label */
+.call__amount .v.total { font-weight: 600; color: var(--text-3); }
+.call__amount .l--total, .total-badge { display: inline-block; margin-top: 5px; padding: 1px 7px; border-radius: 4px; background: #fff1d6; color: #7a4b00; font-size: 11.5px; font-weight: 600; white-space: nowrap; }
+.total-badge { margin-top: 3px; font-size: 11px; }
+.fact.total .v.big { color: var(--text-3); }
+.fact.total .n:first-of-type { color: #7a4b00; font-weight: 600; }
 
 .star { all: unset; position: absolute; top: 12px; right: 12px; cursor: pointer; color: var(--text-3); font-size: 17px; line-height: 1; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 6px; opacity: 0; transition: opacity .15s; }
 .call:hover .star, .star:focus-visible, .star[aria-pressed="true"] { opacity: 1; }
@@ -270,6 +276,7 @@ details.more summary { cursor: pointer; font-size: 14px; font-weight: 600; }
   .call__amount { grid-column: 2; text-align: left; padding-top: 0; min-width: 0; }
   .call__amount .v, .call__amount .l { display: inline; }
   .call__amount .l { margin-left: 6px; }
+  .call__amount .l--total { display: inline-block; margin-top: 0; }
   .star { opacity: 1; }
   .facts { grid-template-columns: 1fr; }
 }

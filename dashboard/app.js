@@ -48,16 +48,23 @@
     if (v >= 1e3) return sym + (v / 1e3).toLocaleString("en", { maximumFractionDigits: v >= 1e5 ? 0 : 1 }) + "k";
     return sym + Math.round(v);
   }
+  /** Funding per project when known (cls ""); otherwise the whole call budget (cls "total"),
+   *  which must never read as a per-project amount; otherwise "Not stated". */
   function amountText(a) {
-    if (!a || (a.max_eur == null && a.min_eur == null)) return { main: "Not stated", cls: "none" };
-    const o = { currency: a.currency || "EUR" };
-    if (a.min_eur != null && a.max_eur != null && a.min_eur < a.max_eur) return { main: `${money(a.min_eur, o)} – ${money(a.max_eur, o)}`, cls: "" };
-    if (a.max_eur != null) return { main: `up to ${money(a.max_eur, o)}`, cls: "" };
-    return { main: `from ${money(a.min_eur, o)}`, cls: "" };
+    const o = { currency: a?.currency || "EUR" };
+    if (a && (a.max_eur != null || a.min_eur != null)) {
+      if (a.min_eur != null && a.max_eur != null && a.min_eur < a.max_eur) return { main: `${money(a.min_eur, o)} – ${money(a.max_eur, o)}`, cls: "" };
+      if (a.max_eur != null) return { main: `up to ${money(a.max_eur, o)}`, cls: "" };
+      return { main: `from ${money(a.min_eur, o)}`, cls: "" };
+    }
+    if (a?.total_budget_eur != null) return { main: money(a.total_budget_eur, o), cls: "total" };
+    return { main: "Not stated", cls: "none" };
   }
+  const TOTAL_HINT = "Whole call budget, shared by all funded projects. The amount per project is not stated.";
+  /** Per-project amount only: filters and the amount sort never treat a call budget as a project amount. */
   const amountSort = (c) => c.amount?.max_eur ?? c.amount?.min_eur ?? -1;
   const isEstimate = (c) => ["computed", "AI extracted", "extracted from text"].includes(c.amount?.source);
-  const amountLabel = (c) => { const a = amountText(c.amount); return (isEstimate(c) && a.cls !== "none" ? "≈ " : "") + a.main; };
+  const amountLabel = (c) => { const a = amountText(c.amount); return (isEstimate(c) && !a.cls ? "≈ " : "") + a.main; };
 
   const ICON = {
     x: '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7l1.4-1.4 6.3 6.3 6.3-6.3 1.4 1.4Z"/></svg>',
@@ -192,7 +199,8 @@
     if (state.directOnly && !directOK(c)) return false;
     if (state.starredOnly && !state.stars.has(c.id)) return false;
     if (state.newOnly && !c.is_new) return false;
-    if (state.window !== "all") { const d = daysLeft(c); if (d == null || d > +state.window) return false; }
+    // "time left": hide calls closing sooner than the chosen minimum; rolling / undated calls stay
+    if (state.window !== "all") { const d = daysLeft(c); if (d != null && d < +state.window) return false; }
     if (state.minAmount === "known") { if (amountSort(c) < 0) return false; }
     else if (+state.minAmount > 0 && amountSort(c) < +state.minAmount) return false;
     if (state.q) {
@@ -212,7 +220,8 @@
     deadline: byDeadline,
     fit: (a, b) => b.relevance - a.relevance || byDeadline(a, b),
     newest: (a, b) => (b.first_seen || "").localeCompare(a.first_seen || "") || byDeadline(a, b),
-    amount: (a, b) => amountSort(b) - amountSort(a) || byDeadline(a, b),
+    // per-project amounts first (largest first), then calls with only a total budget, then none
+    amount: (a, b) => amountSort(b) - amountSort(a) || (b.amount?.total_budget_eur ?? -1) - (a.amount?.total_budget_eur ?? -1) || byDeadline(a, b),
     title: (a, b) => a.title.localeCompare(b.title, "de", { sensitivity: "base" }),
     source: (a, b) => groupRank(a.source) - groupRank(b.source) || a.source.localeCompare(b.source) || byDeadline(a, b),
   };
@@ -294,7 +303,7 @@
     const out = [];
     if (state.q) out.push({ k: "q", label: `“${state.q}”` });
     if (state.topics.size) out.push({ k: "topics", label: topicsLabel() });
-    if (state.window !== "all") out.push({ k: "window", label: $("#window").selectedOptions[0].textContent });
+    if (state.window !== "all") out.push({ k: "window", label: `${$("#window").selectedOptions[0].textContent} left` });
     if (state.minAmount !== "0") out.push({ k: "minAmount", label: $("#minAmount").selectedOptions[0].textContent });
     if (state.sources.size) {
       const names = [...state.sources].map(shortName);
@@ -357,8 +366,9 @@
           ${!directOK(c) ? `<span class="meta" title="${esc(c.eligibility)}">Partner role only</span>` : ""}
         </div>
       </div>
-      <div class="call__amount" title="${c.amount?.source ? "Amount: " + esc(c.amount.source) : ""}">
-        <span class="v ${a.cls}">${esc(amountLabel(c))}</span>${a.cls !== "none" ? '<span class="l">per project</span>' : ""}
+      <div class="call__amount" title="${a.cls === "total" ? TOTAL_HINT : c.amount?.source ? "Amount: " + esc(c.amount.source) : ""}">
+        <span class="v ${a.cls}">${esc(amountLabel(c))}</span>${a.cls === "total" ? '<span class="l l--total">Total budget · not per project</span>'
+          : a.cls !== "none" ? '<span class="l">per project</span>' : ""}
       </div>
       <button class="star" type="button" data-star="${esc(c.id)}" aria-pressed="${starred}" title="${starred ? "Unstar" : "Star"}">${starred ? "★" : "☆"}</button>
     </article>`;
@@ -395,14 +405,14 @@
           <td class="date">${c.deadline ? fmtDate(c.deadline) : noDeadlineLabel(c)}${u.cls ? `<div class="small meta--${u.cls}">${esc(u.text)}</div>` : ""}</td>
           <td><span class="t">${esc(c.title)}</span>${c.is_new ? '<span class="new">New</span>' : ""}</td>
           <td class="small">${esc(shortName(c.source))}</td>
-          <td class="num">${esc(amountText(c.amount).main)}</td>
+          <td class="num">${esc(amountLabel(c))}${amountText(c.amount).cls === "total" ? `<div><span class="total-badge" title="${TOTAL_HINT}">total budget</span></div>` : ""}</td>
           <td class="num">${c.relevance}</td>
         </tr>`;
       }).join("")}</tbody></table></div>`;
   }
 
   function emptyHTML(nLow = 0) {
-    return `<div class="empty"><p><b>No ${nLow ? "strong-fit " : ""}calls match these filters.</b></p><p class="small">${nLow ? "Lower-fit calls are listed below, or try" : "Try"} a wider deadline window or fewer filters.</p><button class="btn" type="button" data-clear="all">Reset filters</button></div>`;
+    return `<div class="empty"><p><b>No ${nLow ? "strong-fit " : ""}calls match these filters.</b></p><p class="small">${nLow ? "Lower-fit calls are listed below, or try" : "Try"} less time left or fewer filters.</p><button class="btn" type="button" data-clear="all">Reset filters</button></div>`;
   }
   /** Divider at the end of the list that reveals / hides the calls under FIT_MIN. */
   function lowToggleHTML(n) {
@@ -420,14 +430,16 @@
     const u = urgency(c);
     $("#drawerTitle").textContent = c.title;
     const fact = (k, v, n = "", cls = "") => (v ? `<div class="fact ${cls}"><div class="k">${k}</div><div class="v${cls.includes("money") ? " big" : ""}">${v}</div>${n ? `<div class="n">${n}</div>` : ""}</div>` : "");
-    const amtNote = [c.amount?.funding_rate && "Funding rate " + esc(c.amount.funding_rate),
-      c.amount?.total_budget_eur && "call budget " + money(c.amount.total_budget_eur),
+    const amt = amountText(c.amount), isTotal = amt.cls === "total";
+    const amtNote = [isTotal && "Not per project: the budget for the whole call, shared by all funded projects",
+      c.amount?.funding_rate && "Funding rate " + esc(c.amount.funding_rate),
+      !isTotal && c.amount?.total_budget_eur && "call budget " + money(c.amount.total_budget_eur),
       c.amount?.expected_grants && `~${c.amount.expected_grants} grants`, c.amount?.note && esc(c.amount.note)].filter(Boolean).join(" · ");
     const deadlineNote = [u.text, c.deadlines?.length > 1 ? "also " + c.deadlines.filter((x) => x !== c.deadline).map(fmtDate).join(", ") : ""].filter(Boolean).join(" · ");
     $("#drawerBody").innerHTML = `
       <p class="drawer__src">${esc([c.funder, c.programme].filter(Boolean).join(" · "))}</p>
       <div class="facts">
-        ${fact("Funding per project", esc(amountLabel(c)), amtNote, "money")}
+        ${fact(isTotal ? "Total call budget" : "Funding per project", esc(amountLabel(c)), amtNote, isTotal ? "money total" : "money")}
         ${fact("Deadline", c.deadline ? fmtDate(c.deadline) : noDeadlineLabel(c), esc(deadlineNote))}
         ${fact("Opens", c.opening_date ? fmtDate(c.opening_date) : "")}
         ${fact("Fit score", `${c.relevance} / 100`, c.relevance < FIT_MIN ? `Below the ${FIT_MIN} cutoff` : "Against the lab profile")}
