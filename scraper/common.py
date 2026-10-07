@@ -18,9 +18,10 @@ ROOT = Path(__file__).resolve().parent.parent
 CACHE_DIR = ROOT / "data" / "cache" / "http"
 log = logging.getLogger("scraper")
 
-# Honest bot name plus a link to the repo, so site operators can see who we are and how to reach us.
-BOT = "DML-Antragsscraper"
-UA = f"{BOT}/1.0 (+https://github.com/Paul-Huemer/FundingCallScrape; Digital Media Lab, FH OÖ Hagenberg)"
+# Generic but honest bot name: says it is an automated tool (so robots.txt bot rules apply to it),
+# without naming the lab. Do not switch back to a browser User-Agent to get past bot blocks.
+BOT = "FundingRadarBot"
+UA = f"{BOT}/1.0"
 
 
 # --------------------------------------------------------------------------- model

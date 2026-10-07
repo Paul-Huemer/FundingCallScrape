@@ -43,7 +43,7 @@ What is kept out:
 ### Rules for fetching
 
 * **robots.txt is obeyed.** `Http` in `scraper/common.py` reads each site's robots.txt (including `*` wildcards) and refuses disallowed URLs with `RobotsDisallowed`; it also honours `Crawl-delay`. A source that needs a disallowed URL has to be rewritten, or the site operator has to agree in writing (then pass `permitted=True` and note who agreed and when).
-* **Honest User-Agent:** `DML-Antragsscraper/1.0` with a link to this repository, not a browser disguise.
+* **Honest but anonymous User-Agent:** `FundingRadarBot/1.0`. It identifies itself as a bot (so sites' bot rules apply), not as a browser, and does not name the lab.
 * **Sites whose terms forbid bots** (Unity, Epic, Amazon) are not fetched: their watchlist entries carry `"no_fetch": true` and a `no_fetch_reason`.
 * **EuroAccess is not used:** its terms forbid storing or republishing its database without EuroVienna's consent.
 * **Secrets:** no API keys are stored in the code. The Anthropic key comes from your environment variable locally, or from the encrypted repository secret on GitHub.

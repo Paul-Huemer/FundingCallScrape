@@ -66,6 +66,9 @@ code { font-size: .9em; background: var(--surface-2); padding: 1px 5px; border-r
 .intro h1 { font-size: 30px; font-weight: 700; letter-spacing: -.02em; line-height: 1.2; margin: 0 0 6px; }
 .intro__lede { margin: 0; color: var(--text-2); }
 .intro__lede b { color: var(--text); font-variant-numeric: tabular-nums; }
+.intro__note { margin: 10px 0 0; padding: 8px 12px; max-width: 72ch; font-size: 13px; line-height: 1.5; color: var(--text-2); background: var(--surface); border: 1px solid var(--border); border-radius: 6px; }
+.intro__note b { color: var(--text); font-weight: 600; }
+.intro__note a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 
 .layout { display: grid; grid-template-columns: 248px minmax(0, 1fr); gap: 40px; align-items: start; }
 
