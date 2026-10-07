@@ -60,7 +60,9 @@ def _deadlines(text: str, patterns: list[str]) -> list:
     found = []
     for p in patterns:                          # entry-specific patterns win
         for m in re.finditer(p, text, re.I):
-            found += find_dates(m.group(1) if m.groups() else m.group(0))
+            s = m.group(1) if m.groups() else m.group(0)
+            # "closes on November 4" (no year): the next such date from today
+            found += find_dates(s) or [d for d in find_dates(f"{s} {today().year} | {s} {today().year + 1}") if d >= today()][:1]
     if not found:                               # generic: dates within ~90 chars after a deadline keyword
         for m in DEADLINE_KW.finditer(text):
             found += find_dates(text[m.start(): m.end() + 90])
@@ -84,7 +86,8 @@ def _entry_to_call(http: Http, e: dict) -> Call:
     check = e.get("check_url") or url
     text, error = "", None
     try:
-        text = _page_text(http, check, e.get("selector"))
+        # no_fetch: the page is a PDF, JS-only or blocks bots -> list the funder from the curated entry alone
+        text = "" if e.get("no_fetch") else _page_text(http, check, e.get("selector"))
     except Exception as ex:  # noqa: BLE001 - still list the funder, flag the fetch problem
         error = str(ex)[:120]
         log.warning("watchlist %s: %s", e["id"], error)
@@ -134,7 +137,8 @@ def _entry_to_call(http: Http, e: dict) -> Call:
         deadline=iso(deadline),
         deadlines=[iso(d) for d in dls[:4]],
         deadline_note=note,
-        description=squash(f"{e.get('description', '')} {text[:6000]}"),
+        # without page text, the curated summary and fit line give the scorer something to tag research areas from
+        description=squash(f"{e.get('description', '')} {text[:6000] or (e.get('summary', '') + ' ' + e.get('fit_reason', ''))}"),
         summary="",
         amount=amt,
         eligibility=e.get("eligibility", ""),

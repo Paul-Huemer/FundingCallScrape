@@ -14,16 +14,19 @@ import re
 import time
 from collections import Counter
 from datetime import date, datetime
+from urllib.parse import urlsplit
 
 from .common import ROOT, Http, save_json, today
 from .scoring import Scorer
 from .summarize import Summarizer
-from .sources import austria, eu_portal, ffg, international, watchlist
+from .sources import aggregators, austria, eu_portal, ffg, international, watchlist
 
 log = logging.getLogger("scraper")
-FIT_FLOOR = {"high": 62, "medium": 42, "low": 22}
+# medium and high sit above the dashboard's FIT_MIN (55): curated funders are listed by default, "low" ones under "Show lower-fit calls"
+FIT_FLOOR = {"high": 66, "medium": 56, "low": 30}
 LABELS = {"eu": "EU Funding & Tenders portal", "ffg": "FFG", "austria": "FWF, OeAD, aws, Interreg, netidee",
-          "international": "EIT", "watchlist": "foundations & niche funders"}
+          "international": "EIT",
+          "aggregators": "call aggregators (On the Move, S+T+ARTS, EUREKA)", "watchlist": "foundations & niche funders"}
 
 
 def run(args) -> dict:
@@ -36,6 +39,7 @@ def run(args) -> dict:
         "ffg": lambda: ffg.scrape(http),
         "austria": lambda: austria.scrape(http),
         "international": lambda: international.scrape(http),
+        "aggregators": lambda: aggregators.scrape(http),
         "watchlist": lambda: watchlist.scrape(http),
     }
     calls, report = [], {}
@@ -121,9 +125,43 @@ def scrub(text: str | None) -> str | None:
     return re.sub(r"\s{2,}", " ", _PHONE.sub("[phone]", _EMAIL.sub("[e-mail]", text)))
 
 
+# Verbatim call text is republished only where the publisher's terms allow reuse (checked 2026-10-06).
+# Everyone else gets title, link, dates, amount and our own summary, which needs no licence.
+# host -> credit line shown under the excerpt (the licences ask for attribution and "changes indicated").
+EXCERPT_LICENCES = {
+    "ec.europa.eu": "© European Union, CC BY 4.0 (Commission Decision 2011/833/EU)",
+    "culture.ec.europa.eu": "© European Union, CC BY 4.0 (Commission Decision 2011/833/EU)",
+    "digital-skills-jobs.europa.eu": "© European Union, CC BY 4.0 (Commission Decision 2011/833/EU)",
+    "www.eit.europa.eu": "© EIT, reuse permitted with acknowledgement of the source",
+    "www.fwf.ac.at": "© Austrian Science Fund (FWF), CC BY 4.0",
+    "oead.at": "© OeAD",
+    "erasmusplus.oead.at": "© OeAD",
+    "kulturvermittlung.oead.at": "© OeAD",
+    "www.eurekanetwork.org": "© EUREKA, non-commercial use with acknowledgement of the source",
+    "wellcome.org": "© Wellcome, CC BY 4.0",
+}
+NO_SUMMARY = ("No summary: this funder's text may not be republished here, and AI summaries are off "
+              "(set ANTHROPIC_API_KEY). Open the official call page.")
+# Cascade calls on the EU portal are written by the project consortia, not the Commission: no CC BY.
+NO_EXCERPT_SOURCES = ("EU · Cascade",)
+
+
+def excerpt_credit(c) -> str | None:
+    if c.source.startswith(NO_EXCERPT_SOURCES):
+        return None
+    return EXCERPT_LICENCES.get(urlsplit(c.url).netloc.lower())
+
+
 def public_record(c) -> dict:
-    d = {k: v for k, v in c.to_dict().items() if k != "description"}
-    d["excerpt"] = scrub(c.description[:1500])
+    d = {k: v for k, v in c.to_dict().items() if k not in ("description", "summary_source", "eligibility_public")}
+    credit = excerpt_credit(c)
+    d["excerpt"] = scrub(c.description[:1500]) if credit else None
+    d["excerpt_credit"] = (credit + " · shortened and cleaned up") if credit else None
+    if not credit:
+        if c.summary_source == "extract":   # extractive summaries are the funder's own sentences
+            d["summary"] = NO_SUMMARY
+        if c.eligibility_public is not None:
+            d["eligibility"] = c.eligibility_public
     for k in ("summary", "fit_reason", "eligibility", "deadline_note"):
         d[k] = scrub(d.get(k))
     return d
@@ -159,7 +197,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--fresh", action="store_true", help="ignore the HTTP cache")
     ap.add_argument("--no-ai", action="store_true", help="do not call the Claude API for summaries")
-    ap.add_argument("--only", help="comma-separated subset of sources: eu,ffg,austria,international,watchlist")
+    ap.add_argument("--only", help="comma-separated subset of sources: eu,ffg,austria,international,aggregators,watchlist")
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args()
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,

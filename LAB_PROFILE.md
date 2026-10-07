@@ -1,6 +1,6 @@
 # Digital Media Lab – research profile & funding fit
 
-*Compiled 2 Oct 2026 from digitalmedialab.at (About, Research, 32 project pages). This profile drives the matching in `config/lab_profile.json`.*
+*Compiled 2 Oct 2026 from digitalmedialab.at (About, Research, 32 project pages). This profile drives the matching in `config/lab_profile.json`, where every research area has the same weight.*
 
 ## Who we are
 
@@ -29,23 +29,21 @@ The **Digital Media Lab (DML)** is a research group in the Department of Digital
 * **Culture & education:** Kunsthistorisches Museum Wien, Bundesdenkmalamt, Ars Electronica, Welios Science Center, Wirtschaftsmuseum, Bundes-Blindenerziehungsinstitut, Klimabündnis, City of Linz.
 * **Industry (SMEs):** Atikon, Netural, Fluidtime, ovos, Rudy Games, Layonardo, PreMedia, Doppel N, CALPANA, Straion, Wako3D, ViewCopter, Umweltdata.
 
-## Which calls fit us best
+## Which calls fit the lab
 
-1. **Games, XR and immersive content.** Creative Europe MEDIA (video games and immersive content, innovative tools), Horizon Europe Cluster 4 "Virtual Worlds / Web 4.0", Cluster 2 culture and creativity, and cascade-funding open calls from XR projects.
-2. **Culture, heritage & museums.** Horizon Europe Cluster 2 (cultural heritage, creative industries), New European Bauhaus, Creative Europe.
-3. **AI & media integrity.** Horizon or Digital Europe on deepfakes, disinformation and trustworthy or human-centric AI. FFG AI programmes (AI Ökosysteme, Industrial AI OÖ).
-4. **Education & science communication.** Sparkling Science 2.0, FWF science communication, Erasmus+ and Horizon calls on AI in education, CERV for democracy and remembrance projects using games.
-5. **Applied research with SMEs (FH instruments).** COIN, FH-Forschung für die Wirtschaft, Bridge, Innovationsscheck (as research provider), Collective Research, Laura Bassi, Talente / Praktika, aws Proof of Concept.
-6. **Environment & monitoring (drones, CV).** Biodiversa+, Horizon Cluster 6 living labs, LIFE.
-7. **Cross-border.** Interreg Bayern–Österreich and Österreich–Tschechien (Kleinprojekte for cultural and educational games, installations).
+All research areas count equally; the list is grouped by area, not ranked.
 
-8. **Niche funders for educational games** (tracked in `config/watchlist.json`):
-   * **History, remembrance and moral courage:** Zukunftsfonds der Republik (rolling, ≤ €50k), Nationalfonds (1 Feb / 1 Apr / 1 Sep; its current priority is countering Holocaust disinformation online), Land OÖ Erinnerungskultur.
-   * **Schools and teacher training across Europe:** Erasmus+ KA220 / KA210 through OeAD (lump sums €30k–400k, usually early March).
-   * **EdTech and engines:** Tools Competition ($50k–300k, abstracts in October), Epic MegaGrants, Unity for Humanity.
-   * **Health and wellbeing games:** Fonds Gesundes Österreich (2026 topic: young people's mental health in digital life).
-   * **Workplace learning in OÖ:** AK OÖ Zukunftsfonds (≤ €200k at 50%).
-   * **Financial literacy:** OeNB Jubiläumsfonds, cluster "Finanzbildung" only (€50–300k).
-   * **Media art and installations:** Prix Ars Electronica / S+T+ARTS.
+* **Visual Computing.** Horizon or Digital Europe on deepfakes, media forensics and trustworthy AI; environment and monitoring with drones and computer vision (Biodiversa+, Horizon Cluster 6 living labs, LIFE).
+* **Intelligent Web Applications.** Horizon / Digital Europe on LLMs, human-centric and trustworthy AI; FFG AI programmes (AI Ökosysteme, Industrial AI OÖ); open-source tooling (NLnet / NGI).
+* **Games and Playful Experiences.** Creative Europe MEDIA (video games and immersive content), Horizon Cluster 2 culture and creativity, cultural heritage and museums, New European Bauhaus, Prix Ars Electronica / S+T+ARTS.
+* **User Interfaces.** Horizon Cluster 4 "Virtual Worlds / Web 4.0", human-centric and accessible digital technology, XR cascade-funding open calls, Epic MegaGrants and Unity for Humanity for real-time 3D / XR.
+* **Smart and Tangible.** Calls on wearables, smart textiles, IoT and embodied interaction (Horizon Cluster 4, cascade funding), media-art prizes for tangible works.
+* **Data Visualization.** Calls on open data, data literacy, visual analytics and decision support (Horizon, Digital Europe, data-spaces cascade calls), science communication.
+
+Across all areas:
+* **Education & science communication:** Sparkling Science 2.0, FWF science communication, Erasmus+ KA220 / KA210 through OeAD (lump sums €30k–400k, usually early March), Tools Competition, CERV for democracy and remembrance.
+* **Applied research with SMEs (FH instruments):** COIN, FH-Forschung für die Wirtschaft, Bridge, Innovationsscheck (as research provider), Collective Research, Laura Bassi, Talente / Praktika, aws Proof of Concept.
+* **Cross-border:** Interreg Bayern–Österreich and Österreich–Tschechien (Kleinprojekte).
+* **Foundations & regional funders** (tracked in `config/watchlist.json`): Zukunftsfonds der Republik, Nationalfonds, Land OÖ (Wissenschaft, Erinnerungskultur), Fonds Gesundes Österreich, AK OÖ Zukunftsfonds, OeNB Jubiläumsfonds (financial literacy only).
 
 **Usually not a fit:** energy hardware, batteries, nuclear, raw materials, agriculture production, defence, and broadband roll-out. The scorer penalises these.

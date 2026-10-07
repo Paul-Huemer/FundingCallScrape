@@ -71,7 +71,7 @@ class Summarizer:
             if hit:
                 self.cache[key] = hit
         if hit:
-            c.summary = hit["summary"]
+            c.summary, c.summary_source = hit["summary"], "ai"
             c.fit_reason = hit.get("fit_reason") or ""
             if c.amount.max_eur is None and hit.get("per_project_max_eur"):
                 c.amount.max_eur = float(hit["per_project_max_eur"])
@@ -80,6 +80,7 @@ class Summarizer:
             if hit.get("amount_note") and not c.amount.note:
                 c.amount.note = hit["amount_note"][:80]
         else:
+            c.summary_source = "curated" if c.summary else "extract"
             c.summary = c.summary or extractive_summary(c.description) or c.title
 
     def _ask(self, c: Call) -> dict | None:

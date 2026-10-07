@@ -1,9 +1,16 @@
 """FFG – Österreichische Forschungsförderungsgesellschaft.
 
-The public listing page (/foerderungen) is served stale by the CDN, so we use the
-Drupal views AJAX endpoint that backs the "Weitere Angebote" block: it pages through
-every open (Geöffnet) and planned (geplant) call. Detail pages carry a "Steckbrief"
-with Einreichzeitraum, Max. Förderung and eligible applicant types.
+FFG's robots.txt disallows every URL with a query string (`Disallow: /*?`), so the paged
+call list (/foerderungen?page=N) and the Drupal views AJAX endpoint behind it are off-limits.
+We start from the first page of /foerderungen and /en/fundings (allowed, 10 calls each) and
+follow the call teasers in each detail page's "Weitere Angebote" block. That finds only part
+of FFG's open calls (about 13 of 60 in October 2026); the rest have to be checked on ffg.at.
+
+FFG_LISTING_PERMITTED switches back to the full AJAX listing. Set it to True ONLY after FFG
+has agreed in writing, and note who agreed and when next to it.
+
+Detail pages carry a "Steckbrief" with Einreichzeitraum, Max. Förderung and eligible
+applicant types.
 """
 from __future__ import annotations
 
@@ -19,6 +26,9 @@ from ..common import Call, Http, extract_amounts, find_dates, iso, parse_number,
 log = logging.getLogger("scraper.ffg")
 
 BASE = "https://www.ffg.at"
+START_PAGES = (BASE + "/foerderungen", BASE + "/en/fundings")
+MAX_DETAIL_PAGES = 150
+FFG_LISTING_PERMITTED = False       # see module docstring: only with FFG's written permission
 AJAX = BASE + "/views/ajax"
 AJAX_PARAMS = {
     "_wrapper_format": "drupal_ajax",
@@ -38,34 +48,66 @@ def _ajax_html(raw: str) -> str:
     return "".join(c.get("data", "") for c in cmds if isinstance(c.get("data"), str))
 
 
-def list_calls(http: Http, max_pages: int = 40) -> list[dict]:
+def _teasers(html: str) -> list[dict]:
+    soup = BeautifulSoup(html, "html.parser")
+    items = []
+    for card in soup.select('article[data-component-id="ao_canvas:call-teaser"]'):
+        a = card.find("a", href=True)
+        if not a:
+            continue
+        lines = [l for l in card.get_text("\n", strip=True).split("\n") if l.strip()]
+        items.append({
+            "url": urljoin(BASE, a["href"]),
+            "title": (card.find("h2").get_text(" ", strip=True) if card.find("h2") else lines[0]),
+            "subtitle": card.find("h3").get_text(" ", strip=True) if card.find("h3") else "",
+            "teaser": " ".join(p.get_text(" ", strip=True) for p in card.select("div p")),
+            "lines": lines,
+        })
+    return items
+
+
+def _list_permitted(http: Http, max_pages: int = 40) -> list[dict]:
+    """Full listing via the views AJAX endpoint. robots.txt disallows it: only with FFG's permission."""
     items, seen = [], set()
     for page in range(max_pages):
-        raw = http.get(AJAX, params={**AJAX_PARAMS, "page": page},
+        raw = http.get(AJAX, params={**AJAX_PARAMS, "page": page}, permitted=True,
                        headers={"X-Requested-With": "XMLHttpRequest", "Accept": "application/json"})
-        soup = BeautifulSoup(_ajax_html(raw), "html.parser")
-        cards = soup.select('article[data-component-id="ao_canvas:call-teaser"]')
-        new = 0
-        for card in cards:
-            a = card.find("a", href=True)
-            if not a:
-                continue
-            href = urljoin(BASE, a["href"])
-            if href in seen:
-                continue
-            seen.add(href)
-            new += 1
-            lines = [l for l in card.get_text("\n", strip=True).split("\n") if l.strip()]
-            items.append({
-                "url": href,
-                "title": (card.find("h2").get_text(" ", strip=True) if card.find("h2") else lines[0]),
-                "subtitle": card.find("h3").get_text(" ", strip=True) if card.find("h3") else "",
-                "teaser": " ".join(p.get_text(" ", strip=True) for p in card.select("div p")),
-                "lines": lines,
-            })
+        cards = _teasers(_ajax_html(raw))
+        new = [c for c in cards if c["url"] not in seen]
+        seen.update(c["url"] for c in new)
+        items += new
         if not cards or not new:
             break
-    log.info("FFG: %d calls in listing", len(items))
+    return items
+
+
+def list_calls(http: Http) -> list[dict]:
+    """Calls reachable through pages robots.txt allows: the first listing page, then the
+    "Weitere Angebote" teasers on each call page. Each item keeps its fetched page in "html"."""
+    if FFG_LISTING_PERMITTED:
+        items = _list_permitted(http)
+        log.info("FFG: %d calls in listing", len(items))
+        return items
+    seen, queue = set(), []
+    for start in START_PAGES:
+        for it in _teasers(http.get(start)):
+            if it["url"] not in seen:
+                seen.add(it["url"])
+                queue.append(it)
+    items = []
+    while queue and len(items) < MAX_DETAIL_PAGES:
+        it = queue.pop(0)
+        try:
+            it["html"] = http.get(it["url"])
+        except Exception as e:  # noqa: BLE001
+            log.warning("FFG detail failed %s: %s", it["url"], e)
+            continue
+        items.append(it)
+        for more in _teasers(it["html"]):
+            if more["url"] not in seen:
+                seen.add(more["url"])
+                queue.append(more)
+    log.info("FFG: %d calls found via allowed pages (listing pages 2+ are blocked by robots.txt)", len(items))
     return items
 
 
@@ -90,7 +132,7 @@ def _section(text_lines: list[str], start_pat: str, stop_pats: tuple[str, ...]) 
 
 
 def parse_detail(http: Http, item: dict) -> Call | None:
-    html = http.get(item["url"])
+    html = item.get("html") or http.get(item["url"])
     soup = BeautifulSoup(html, "html.parser")
     for t in soup(["script", "style", "svg", "nav", "footer"]):
         t.decompose()
@@ -161,6 +203,7 @@ def parse_detail(http: Http, item: dict) -> Call | None:
         eligibility += f" · Kooperation: {coop}"
     if scope:
         eligibility += f" · {scope}"
+    public_elig = eligibility          # the "Wer wird gefördert" prose is FFG's text: used for scoring, not republished
     if who:
         eligibility = (eligibility + " · " if eligibility else "") + who[:300]
 
@@ -180,6 +223,7 @@ def parse_detail(http: Http, item: dict) -> Call | None:
         description=description[:8000] + " " + full_text[:4000],
         amount=amt,
         eligibility=eligibility,
+        eligibility_public=public_elig,
         language="de",
     )
 

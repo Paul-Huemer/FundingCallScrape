@@ -1,5 +1,5 @@
 {
-  "_comment": "Niche funders without a call database. Fields: id, name, funder, group, url (shown), check_url (scanned, optional), selector, deadline_patterns (regex with one date group), recurring_deadlines ['MM-DD'], rolling, closed_patterns, no_text_amount (do not read amounts from page text), never_parse_dates, ignore_default_closed, amount{min_eur,max_eur,funding_rate,note}, eligibility, summary, fit_reason, fit (high|medium|low -> score floor), tags, language. Verified 2026-10-02.",
+  "_comment": "Niche funders without a call database. Fields: id, name, funder, group, url (shown), check_url (scanned, optional), selector, deadline_patterns (regex with one date group), recurring_deadlines ['MM-DD'], rolling, closed_patterns, no_text_amount (do not read amounts from page text), never_parse_dates, ignore_default_closed, no_fetch (list from the entry alone: PDF, JS-only or bot-blocking pages), partner_only, amount{min_eur,max_eur,funding_rate,note}, eligibility, summary, fit_reason, fit (high|medium|low -> score floor), tags, language. Verified 2026-10-02; entries from leader-kernland on added 2026-10-06.",
   "funders": [
     {
       "id": "zukunftsfonds-at",
@@ -16,14 +16,14 @@
       },
       "eligibility": "Any natural or legal person in Austria or abroad – FH research groups eligible",
       "summary": "Funds scientific, historical and educational projects on remembrance of National Socialism and other totalitarian regimes, human rights, tolerance and democracy with a link to Austria. Educational and pedagogical formats are explicitly eligible.",
-      "fit_reason": "History/remembrance and moral-courage games (cf. CATRINA, museum games) for schools fit the pedagogical project strand.",
-      "fit": "high",
+      "fit_reason": "Digital remembrance and democracy-education formats from any lab area – e.g. interactive or XR formats at memorial sites, visualisations of historical sources, AI-supported archives, learning games.",
+      "fit": "medium",
       "tags": [
         "remembrance",
         "history education",
         "democracy",
         "human rights",
-        "educational games"
+        "digital formats"
       ],
       "language": "de"
     },
@@ -45,8 +45,8 @@
       },
       "eligibility": "Institutions and organisations; projects on NS history, remembrance and education",
       "summary": "Project funding for remembrance, research and education about National Socialism and its victims. Priority topic 2025/26: countering online disinformation that relativises the Holocaust – digital and educational formats welcome.",
-      "fit_reason": "Educational games and interactive formats against Holocaust disinformation match the current priority topic directly.",
-      "fit": "high",
+      "fit_reason": "Formats against online Holocaust disinformation – e.g. detecting manipulated media, AI-supported fact checking, data visualisation, interactive or game-based learning.",
+      "fit": "medium",
       "tags": [
         "remembrance",
         "disinformation",
@@ -76,14 +76,14 @@
       },
       "eligibility": "Legal persons as project lead (FH eligible); health-promotion projects, not pure research",
       "summary": "Austria's national health-promotion fund. Funds practical health-promotion projects; the 2026 call focused on psychosocial health of young people in times of increasing digitalisation.",
-      "fit_reason": "Game-based and digital health-promotion interventions (e.g. VR stress relief, playful wellbeing apps for youth) fit when delivered with a practice partner.",
+      "fit_reason": "Digital health-promotion interventions for young people – e.g. wellbeing apps, wearables, XR relaxation or playful formats – delivered with a practice partner.",
       "fit": "medium",
       "tags": [
         "health promotion",
         "youth",
         "mental health",
         "digital wellbeing",
-        "serious games"
+        "digital interventions"
       ],
       "language": "de",
       "no_text_amount": true
@@ -105,13 +105,13 @@
       },
       "eligibility": "Austrian research institutions; only research relevant to central banking (19 thematic clusters)",
       "summary": "The OeNB's anniversary fund supports research projects relevant to monetary policy, financial stability and the economy. Cluster 16 'Finanzbildung und Wirtschaftskompetenz' (financial literacy) is the relevant entry point.",
-      "fit_reason": "Only via financial-literacy research – e.g. a game-based learning intervention on money, inflation or the euro for schools, with an evaluation design.",
-      "fit": "medium",
+      "fit_reason": "Only via financial-literacy research – e.g. an interactive learning tool, data visualisation or game on money and inflation for schools, with an evaluation design.",
+      "fit": "low",
       "tags": [
         "financial literacy",
         "Finanzbildung",
         "economic education",
-        "game-based learning"
+        "educational interventions"
       ],
       "language": "de"
     },
@@ -132,7 +132,7 @@
       },
       "eligibility": "Individuals only – highest degree ≤ 6 years ago, work in progress (e.g. lab PhD students / junior researchers)",
       "summary": "Annual awards for ongoing scientific and artistic work by early-career researchers and artists in Austria, endowed with €5,000 each.",
-      "fit_reason": "Seed money for junior lab members' ongoing game or XR research projects.",
+      "fit_reason": "Seed money for junior lab members' ongoing research in any area.",
       "fit": "low",
       "tags": [
         "early career",
@@ -161,12 +161,12 @@
       },
       "eligibility": "FHs explicitly eligible; projects must benefit employees in Upper Austria (company or works-council partner), no pure research",
       "summary": "The Upper Austrian Chamber of Labour funds projects that help employees cope with digitalisation – training, participation and new digital tools at work.",
-      "fit_reason": "Serious games and playful training tools for employees of OÖ companies (e.g. AI literacy, safety, logistics like Logistify).",
+      "fit_reason": "Digital tools for employees of Upper Austrian companies – e.g. AI assistants, XR or game-based training, accessible interfaces, participation dashboards.",
       "fit": "medium",
       "tags": [
         "digital skills",
         "workplace learning",
-        "serious games",
+        "digital tools",
         "Upper Austria"
       ],
       "language": "de"
@@ -186,7 +186,7 @@
       },
       "eligibility": "Researchers, associations and institutions based in Upper Austria; project ≥ 50% related to Upper Austria with public results",
       "summary": "Upper Austria's culture department funds scholarly projects in the humanities, cultural and regional studies with a clear Upper Austrian focus and publicly accessible results.",
-      "fit_reason": "Regional history and heritage games or interactive installations (e.g. Pferdeeisenbahn, Linz city games) fit well.",
+      "fit_reason": "Regional history and heritage projects with an Upper Austrian focus – e.g. interactive installations, 3D reconstruction, data visualisation or games.",
       "fit": "medium",
       "tags": [
         "regional history",
@@ -211,7 +211,7 @@
       },
       "eligibility": "Institutions and initiatives in Upper Austria",
       "summary": "Funding for remembrance projects in Upper Austria – memorial sites, educational programmes and mediation formats about National Socialism and regional contemporary history.",
-      "fit_reason": "Digital/game-based mediation for Upper Austrian memorial sites (e.g. Mauthausen region) or school programmes.",
+      "fit_reason": "Digital mediation for Upper Austrian memorial sites or school programmes – e.g. XR, interactive installations, visualisations or games.",
       "fit": "medium",
       "tags": [
         "remembrance",
@@ -240,11 +240,11 @@
       },
       "eligibility": "Worldwide – universities, non-profits and companies (3 of 4 tracks; the postsecondary track is US-only)",
       "summary": "International competition funding digital learning tools and the research infrastructure around them (data, evaluation). Three prize tiers by project maturity; tracks for K-12 learning, assessment and AI-supported learning.",
-      "fit_reason": "Directly fits the lab's educational games and AI-in-classroom work (KIWi, climate games) – a learning game with a research/data component.",
-      "fit": "high",
+      "fit_reason": "Digital learning tools with a research/data component – e.g. AI tutors, learning analytics and visualisation, learning games.",
+      "fit": "medium",
       "tags": [
         "EdTech",
-        "educational games",
+        "learning tools",
         "learning engineering",
         "K-12"
       ],
@@ -256,9 +256,8 @@
       "funder": "Epic Games",
       "group": "Games, EdTech & tech-industry grants",
       "url": "https://www.unrealengine.com/en-US/megagrants",
-      "deadline_patterns": [
-        "Submission window:\\s*[A-Z][a-z]+ \\d{1,2}\\s*-\\s*([A-Z][a-z]+ \\d{1,2}, \\d{4})"
-      ],
+      "no_fetch": true,
+      "no_fetch_reason": "Epic's terms restrict automated access: listed from this curated entry only, check the page by hand",
       "rhythm": "Submission cycles announced on the page (2026 cycles closed 4 Sep 2026; next expected early 2027)",
       "amount": {
         "min_eur": 5000,
@@ -268,12 +267,12 @@
       },
       "eligibility": "Game developers, creators, educators and degree-granting institutions worldwide",
       "summary": "Epic Games funds projects built with Unreal Engine – games, XR, education, research and open-source tools. Grants are non-dilutive; Epic takes no rights.",
-      "fit_reason": "Unreal-based educational, museum or VR projects (e.g. VR heritage installations) qualify; education and research are explicit categories.",
-      "fit": "high",
+      "fit_reason": "Projects built with Unreal Engine – e.g. XR and virtual humans, real-time visualisation, digital heritage, games; education and research are explicit categories.",
+      "fit": "medium",
       "tags": [
         "game engine",
         "XR",
-        "educational games",
+        "real-time 3D",
         "Unreal"
       ],
       "language": "en"
@@ -284,6 +283,8 @@
       "funder": "Unity Social Impact",
       "group": "Games, EdTech & tech-industry grants",
       "url": "https://unity.com/humanity",
+      "no_fetch": true,
+      "no_fetch_reason": "Unity's terms forbid crawlers, scrapers and AI agents: listed from this curated entry only, check the page by hand",
       "never_parse_dates": true,
       "rhythm": "Annual – opens ~January, closes ~February (2026: closed 20 Feb 2026)",
       "amount": {
@@ -293,13 +294,13 @@
       },
       "eligibility": "Creators using Unity for social impact; universities have won before (non-US public bodies not explicitly ruled out)",
       "summary": "Unity's annual grant for real-time 3D projects (games, XR, simulations) with positive social or environmental impact, including education and inclusion.",
-      "fit_reason": "Social-impact learning games and accessibility projects (e.g. BlindBits, climate games) built in Unity.",
-      "fit": "high",
+      "fit_reason": "Social-impact real-time 3D projects built in Unity – e.g. XR, simulations, accessibility tools, learning games.",
+      "fit": "medium",
       "tags": [
         "Unity",
         "XR",
-        "social impact",
-        "educational games"
+        "real-time 3D",
+        "social impact"
       ],
       "language": "en"
     },
@@ -322,8 +323,8 @@
       },
       "eligibility": "Individuals, universities and organisations worldwide; results must be open source",
       "summary": "Small, fast grants for open-source internet technology – libraries, tools, protocols, privacy and accessibility software.",
-      "fit_reason": "Fits only open-source tooling the lab builds (e.g. Spacehuddle, the ZIEGE game editor, accessible web components), not the games themselves.",
-      "fit": "low",
+      "fit_reason": "Open-source software from any lab area – e.g. web tools and AI components, accessible interfaces, visualisation libraries, editors.",
+      "fit": "medium",
       "tags": [
         "open source",
         "web technology"
@@ -346,7 +347,7 @@
       },
       "eligibility": "Artists, researchers and institutions worldwide",
       "summary": "International prize for media art and digital culture from Linz, plus the EU S+T+ARTS prize for innovation at the intersection of science, technology and the arts.",
-      "fit_reason": "Interactive installations, XR and playful media works (e.g. e-hackbrett, projection-mapping installations) are classic Prix submissions.",
+      "fit_reason": "Interactive installations, media art, XR, tangible and data-driven works are classic Prix submissions.",
       "fit": "medium",
       "tags": [
         "media art",
@@ -373,8 +374,8 @@
       },
       "eligibility": "Early-career researchers (PhD within 10 years) at a host institution worldwide",
       "summary": "Fellowships for early-career researchers studying child and youth development and learning, including learning technologies.",
-      "fit_reason": "A lab postdoc researching the learning effects of games (learning-science framing) could apply with the FH as host.",
-      "fit": "medium",
+      "fit_reason": "A lab postdoc researching learning with technology (e.g. AI tutors, XR, learning games, visualisation literacy) could apply with the FH as host.",
+      "fit": "low",
       "tags": [
         "learning science",
         "early career",
@@ -395,10 +396,10 @@
       },
       "eligibility": "Producers of educational media worldwide",
       "summary": "NHK's international competition for educational media; the digital category accepts educational games and apps.",
-      "fit_reason": "Visibility and modest prize money for finished educational games (e.g. Klimaspiel, Ecopolis).",
+      "fit_reason": "Visibility and modest prize money for finished educational media – e.g. learning games, apps or interactive content.",
       "fit": "low",
       "tags": [
-        "educational games",
+        "educational media",
         "prize"
       ],
       "language": "en"
@@ -417,7 +418,7 @@
       },
       "eligibility": "Lead from an EU CEI member (Austria eligible) with a beneficiary partner from a non-EU CEI country (e.g. Western Balkans, Moldova, Ukraine)",
       "summary": "Co-funds the transfer of know-how and good practice from EU to non-EU CEI member states, including education and digital transformation.",
-      "fit_reason": "Transfer of educational-game methods to schools or universities in the Western Balkans or Ukraine.",
+      "fit_reason": "Transfer of the lab's digital-education or digital-transformation know-how to schools or universities in the Western Balkans or Ukraine.",
       "fit": "low",
       "tags": [
         "capacity building",
@@ -441,7 +442,7 @@
       },
       "eligibility": "Organisations in the Alpine Space area (Upper Austria eligible)",
       "summary": "Transnational cooperation programme for the Alps; small-scale projects test ideas on climate, environment, governance and innovation.",
-      "fit_reason": "Climate-education or tourism games for Alpine regions with partners from DE/IT/SI/CH/FR.",
+      "fit_reason": "Small pilots on climate, environment or tourism with partners from DE/IT/SI/CH/FR – e.g. drone-based monitoring, data visualisation, interactive formats.",
       "fit": "low",
       "tags": [
         "Interreg",
@@ -468,11 +469,11 @@
       },
       "eligibility": "Any organisation active in the field (FHs can lead or partner); min. 2 (KA210) / 3 (KA220) organisations from different programme countries",
       "summary": "Transnational projects that develop, transfer or implement innovative practices – e.g. digital learning materials, teacher training, open educational resources. Submitted to the Austrian national agency (not listed on the EU portal).",
-      "fit_reason": "Classic vehicle for co-developing and piloting educational games with schools and universities across Europe, including teacher-training materials.",
-      "fit": "high",
+      "fit_reason": "Transnational education projects from any lab area – e.g. learning games, AI- or data-literacy materials, XR learning content or accessible tools – with schools, universities, youth or adult-education partners.",
+      "fit": "medium",
       "tags": [
         "Erasmus+",
-        "educational games",
+        "digital learning",
         "schools",
         "OER"
       ],
@@ -496,12 +497,12 @@
       },
       "eligibility": "Any organisation active in the field (FHs can lead or partner); min. 2 (KA210) / 3 (KA220) organisations from different programme countries",
       "summary": "Transnational projects that develop, transfer or implement innovative practices – e.g. digital learning materials, teacher training, open educational resources. Submitted to the Austrian national agency (not listed on the EU portal).",
-      "fit_reason": "Classic vehicle for co-developing and piloting educational games with schools and universities across Europe, including teacher-training materials.",
-      "fit": "high",
+      "fit_reason": "Transnational education projects from any lab area – e.g. learning games, AI- or data-literacy materials, XR learning content or accessible tools – with schools, universities, youth or adult-education partners.",
+      "fit": "medium",
       "tags": [
         "Erasmus+",
-        "educational games",
-        "schools",
+        "digital learning",
+        "higher education",
         "OER"
       ],
       "language": "de"
@@ -524,12 +525,12 @@
       },
       "eligibility": "Any organisation active in the field (FHs can lead or partner); min. 2 (KA210) / 3 (KA220) organisations from different programme countries",
       "summary": "Transnational projects that develop, transfer or implement innovative practices – e.g. digital learning materials, teacher training, open educational resources. Submitted to the Austrian national agency (not listed on the EU portal).",
-      "fit_reason": "Classic vehicle for co-developing and piloting educational games with schools and universities across Europe, including teacher-training materials.",
-      "fit": "high",
+      "fit_reason": "Transnational education projects from any lab area – e.g. learning games, AI- or data-literacy materials, XR learning content or accessible tools – with schools, universities, youth or adult-education partners.",
+      "fit": "medium",
       "tags": [
         "Erasmus+",
-        "educational games",
-        "schools",
+        "digital learning",
+        "youth",
         "OER"
       ],
       "language": "de"
@@ -552,12 +553,12 @@
       },
       "eligibility": "Any organisation active in the field (FHs can lead or partner); min. 2 (KA210) / 3 (KA220) organisations from different programme countries",
       "summary": "Transnational projects that develop, transfer or implement innovative practices – e.g. digital learning materials, teacher training, open educational resources. Submitted to the Austrian national agency (not listed on the EU portal).",
-      "fit_reason": "Classic vehicle for co-developing and piloting educational games with schools and universities across Europe, including teacher-training materials.",
-      "fit": "high",
+      "fit_reason": "Transnational education projects from any lab area – e.g. learning games, AI- or data-literacy materials, XR learning content or accessible tools – with schools, universities, youth or adult-education partners.",
+      "fit": "medium",
       "tags": [
         "Erasmus+",
-        "educational games",
-        "schools",
+        "digital learning",
+        "adult education",
         "OER"
       ],
       "language": "de"
@@ -580,15 +581,1154 @@
       },
       "eligibility": "Any organisation active in the field (FHs can lead or partner); min. 2 (KA210) / 3 (KA220) organisations from different programme countries",
       "summary": "Small partnerships for newcomers and grassroots organisations to exchange practices and run small projects in school education.",
-      "fit_reason": "Classic vehicle for co-developing and piloting educational games with schools and universities across Europe, including teacher-training materials.",
-      "fit": "medium",
+      "fit_reason": "Small transnational school-education projects from any lab area – e.g. learning games, AI- or data-literacy materials, XR learning content.",
+      "fit": "low",
       "tags": [
         "Erasmus+",
-        "educational games",
+        "digital learning",
         "schools",
         "OER"
       ],
       "language": "de"
+    },
+    {
+      "id": "leader-kernland",
+      "name": "LEADER Mühlviertler Kernland – Projektaufrufe",
+      "funder": "LEADER-Region Mühlviertler Kernland (EU / Bund / Land OÖ)",
+      "group": "Upper Austria · regional funders",
+      "url": "https://leader-kernland.at/",
+      "deadline_patterns": [
+        "Aufruf #\\d+\\s+[\\d.]+\\s*-\\s*(\\d{1,2}\\.\\s?\\d{1,2}\\.\\s?\\d{4})"
+      ],
+      "rhythm": "About two calls a year (2026: 14 Jan–11 Mar and 12 Aug–13 Oct); next call expected ~Jan–Mar 2027",
+      "amount": {
+        "note": "LEADER rates per the local development strategy 2023–2027 (typically 40–80%)"
+      },
+      "eligibility": "Projects anchored in the region – Hagenberg, Pregarten and Freistadt are member municipalities; institutions, associations, municipalities and companies",
+      "summary": "EU LEADER funding for regional development projects in the Mühlviertler Kernland, in four action fields that include culture, education and digital topics. The LEADER office helps prepare submissions.",
+      "fit_reason": "Regional projects around Hagenberg – e.g. digital heritage (cf. the funded 'Digitales Glockenarchiv'), educational games, citizen science or interactive installations with local partners.",
+      "fit": "high",
+      "tags": [
+        "regional development",
+        "LEADER",
+        "culture",
+        "education",
+        "Upper Austria"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "land-ooe-bne",
+      "name": "Land OÖ – Außerschulische Bildungsinitiativen für nachhaltige Entwicklung (BNE/GCED)",
+      "funder": "Land Oberösterreich, Direktion Umwelt und Wasserwirtschaft",
+      "group": "Upper Austria · regional funders",
+      "url": "https://www.land-oberoesterreich.gv.at/554039.htm",
+      "rolling": true,
+      "ignore_default_closed": true,
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Rolling while funds last; programme runs 1 Mar 2026 – 31 Mar 2028; apply before the project starts",
+      "amount": {
+        "max_eur": 25000,
+        "funding_rate": "up to 65%",
+        "note": "personnel (incl. existing staff), material and a 25% overhead flat rate eligible"
+      },
+      "eligibility": "Universities and Hochschulen explicitly eligible (projects outside regular teaching), plus education institutions and associations",
+      "summary": "Upper Austria funds pilot and model projects in out-of-school education for sustainable development and global citizenship – explicitly including labs, real-world labs and living labs.",
+      "fit_reason": "Sustainability serious games, citizen-science formats and living-lab learning settings (cf. Klimaspiel, Ecopolis) fit the call almost word for word.",
+      "fit": "high",
+      "tags": [
+        "education for sustainable development",
+        "living lab",
+        "climate education",
+        "citizen science",
+        "Upper Austria"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "land-ooe-antragsfit",
+      "name": "Land OÖ – Horizon Europe „Antragsfit“ (proposal preparation)",
+      "funder": "Land Oberösterreich, Abteilung Wirtschaft und Forschung (advice: Business Upper Austria)",
+      "group": "Upper Austria · regional funders",
+      "url": "https://www.land-oberoesterreich.gv.at/119127.htm",
+      "rolling": true,
+      "ignore_default_closed": true,
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Rolling; current guideline covers 1 Jan 2024 – 31 Dec 2026 – successor guideline expected",
+      "amount": {
+        "max_eur": 25000,
+        "note": "per Horizon Europe proposal (figure from Land OÖ press releases)"
+      },
+      "eligibility": "Companies and R&D institutions with seat or branch in Upper Austria – FH OÖ can apply directly",
+      "summary": "Upper Austria pays part of the cost of preparing a Horizon Europe proposal, to bring more regional organisations into EU research projects.",
+      "fit_reason": "Co-finances writing any Horizon Europe bid of the lab – e.g. Cluster 2 heritage, Cluster 4 virtual worlds or AI-in-education calls.",
+      "fit": "high",
+      "tags": [
+        "Horizon Europe",
+        "proposal preparation",
+        "Upper Austria"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "land-ooe-forschungsfelder",
+      "name": "Land OÖ – Zukunftsweisende Forschungsfelder (außeruniversitäre Forschung)",
+      "funder": "Land Oberösterreich, Abteilung Wirtschaft und Forschung",
+      "group": "Upper Austria · regional funders",
+      "url": "https://www.land-oberoesterreich.gv.at/249106.htm",
+      "rolling": true,
+      "ignore_default_closed": true,
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Rolling; guideline period 2022–2029",
+      "amount": {
+        "min_eur": 500000,
+        "max_eur": 2400000,
+        "funding_rate": "up to 100%",
+        "note": "max €600k per year; project volume ≥ €500k"
+      },
+      "eligibility": "Only non-university, non-COMET research institutions in Upper Austria listed with FFG – check with FH OÖ management whether FH OÖ F&E GmbH qualifies",
+      "summary": "Strategic money to build new research fields in line with #upperVISION2030, e.g. human-centred AI and technologies for people.",
+      "fit_reason": "A route to institution-level funding for a new lab focus such as human-centred AI or XR – decided at FH OÖ level, not by the lab alone.",
+      "fit": "medium",
+      "tags": [
+        "research capacity",
+        "human-centred AI",
+        "Upper Austria"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "land-ooe-kooperation",
+      "name": "Land OÖ – Unternehmens- und Forschungskooperationsförderung (Cluster)",
+      "funder": "Land Oberösterreich / Business Upper Austria clusters",
+      "group": "Upper Austria · regional funders",
+      "url": "https://www.land-oberoesterreich.gv.at/526010.htm",
+      "rolling": true,
+      "ignore_default_closed": true,
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "partner_only": true,
+      "rhythm": "Rolling; guideline 2024–2026 – successor expected",
+      "amount": {
+        "max_eur": 300000,
+        "funding_rate": "up to 40% (with an R&D partner)",
+        "note": "per cooperation project, ≥ 3 partners"
+      },
+      "eligibility": "Cluster-member companies lead (min. 3 partners); the FH joins as R&D partner",
+      "summary": "Cooperation projects of Business Upper Austria cluster companies (e.g. IT, creative, medical-technology clusters) with research partners.",
+      "fit_reason": "Applied projects with Upper Austrian SMEs – e.g. AI web tools, XR training or computer-vision prototypes – with the lab as research partner.",
+      "fit": "medium",
+      "tags": [
+        "cooperation",
+        "SMEs",
+        "clusters",
+        "Upper Austria"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "biz-up-innovationspreis",
+      "name": "Oö. Landespreis für Innovation – category research institutions",
+      "funder": "Land Oberösterreich / Business Upper Austria",
+      "group": "Upper Austria · regional funders",
+      "url": "https://www.biz-up.at/innovationspreis",
+      "deadline_patterns": [
+        "Einreich\\w*\\s*(?:bis|frist|schluss)[^.]{0,40}?(\\d{1,2}\\.\\s?\\d{1,2}\\.\\s?\\d{4})"
+      ],
+      "rhythm": "Yearly prize; submissions usually in spring",
+      "amount": {
+        "max_eur": 4000,
+        "note": "prize money (1st place) plus media coverage and nomination for national prizes"
+      },
+      "eligibility": "University and non-university research institutions in Upper Austria",
+      "summary": "Upper Austria's innovation prize, with its own category for applied R&D results from research institutions.",
+      "fit_reason": "Visibility for finished lab results with application potential – e.g. deepfake detection, drone-based wildlife detection or XR tools.",
+      "fit": "medium",
+      "tags": [
+        "prize",
+        "innovation",
+        "Upper Austria"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "land-ooe-jugendkultur",
+      "name": "Land OÖ Kultur – Kinder- und Jugendkulturförderung",
+      "funder": "Land Oberösterreich, Direktion Kultur und Gesellschaft",
+      "group": "Upper Austria · regional funders",
+      "url": "https://www.land-oberoesterreich.gv.at/224353.htm",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "partner_only": true,
+      "rhythm": "Culture funding windows: Nov–Jan (annual programmes), Feb–Apr (projects), May–Jun (investments)",
+      "amount": {
+        "note": "project funding; no fixed maximum published"
+      },
+      "eligibility": "Artists and cultural associations; the lab partners with them",
+      "summary": "Funds artistic projects for children and young people outside school lessons, including media art and film workshops.",
+      "fit_reason": "Game-design, XR or creative-coding workshops for young people run with an artist or cultural association.",
+      "fit": "low",
+      "tags": [
+        "youth",
+        "media art",
+        "workshops",
+        "Upper Austria"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "land-ooe-medienprojekte",
+      "name": "Land OÖ Kultur – künstlerische Medienprojekte",
+      "funder": "Land Oberösterreich, Direktion Kultur und Gesellschaft",
+      "group": "Upper Austria · regional funders",
+      "url": "https://www.land-oberoesterreich.gv.at/212759.htm",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "partner_only": true,
+      "rhythm": "Culture funding windows: Nov–Jan, Feb–Apr, May–Jun",
+      "amount": {
+        "note": "project funding; purely technical projects excluded"
+      },
+      "eligibility": "Artists and cultural initiatives; the lab partners with them",
+      "summary": "Funds artistic media projects in Upper Austria; purely technical projects are excluded.",
+      "fit_reason": "Interactive installations or media-art works made with an artist, the lab providing the technology.",
+      "fit": "low",
+      "tags": [
+        "media art",
+        "installations",
+        "Upper Austria"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "euregio-kleinprojekte",
+      "name": "EUREGIO Bayerischer Wald–Böhmerwald – Kleinprojekte & Kooperationsfonds",
+      "funder": "EUREGIO / Regionalmanagement OÖ (Interreg small-project funds)",
+      "group": "Multinational programmes (CEI, Interreg)",
+      "url": "https://at.euregio3.org/foerderprogramme/interreg",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Small-project funds of Interreg AT–CZ and BY–AT; ask the EUREGIO office in Freistadt for the next selection date",
+      "amount": {
+        "max_eur": 35000,
+        "note": "eligible costs per small project (BY–AT); AT–CZ similar"
+      },
+      "eligibility": "Associations, municipalities and education institutions with a Czech or Bavarian partner",
+      "summary": "Mühlviertel entry point to the cross-border small-project funds for education, culture and people-to-people exchange.",
+      "fit_reason": "Small cross-border projects with Czech or Bavarian partners – e.g. a bilingual heritage app, game workshops or a joint exhibition piece.",
+      "fit": "medium",
+      "tags": [
+        "cross-border",
+        "Interreg",
+        "small projects",
+        "Mühlviertel"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "linz-wissenschaft",
+      "name": "Stadt Linz – „LINZ fördert Wissenschaft“",
+      "funder": "Magistrat der Stadt Linz",
+      "group": "Upper Austria · City of Linz",
+      "url": "https://www.linz.at/serviceguide/viewchapter.php?chapter_id=122035",
+      "rolling": true,
+      "ignore_default_closed": true,
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Rolling – apply before the project starts",
+      "amount": {
+        "note": "decided case by case; personnel, material and equipment shares eligible"
+      },
+      "eligibility": "Institutes, research institutions and teaching staff of all universities; research institutes in Linz – check eligibility of the Hagenberg campus",
+      "summary": "The City of Linz funds research in its own interest and knowledge exchange between researchers.",
+      "fit_reason": "Projects with a clear Linz angle – e.g. urban data visualisation, citizen-science apps, heritage XR for Linz institutions.",
+      "fit": "medium",
+      "tags": [
+        "research funding",
+        "Linz",
+        "urban"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "linz-kultur-sonderprogramme",
+      "name": "Stadt Linz Kultur – LINZ_media_arts, LINZimPULS & other special programmes",
+      "funder": "Linz Kultur (Stadt Linz)",
+      "group": "Upper Austria · City of Linz",
+      "url": "https://www.linz.at/serviceguide/brochure.php?id=705",
+      "no_fetch": true,
+      "recurring_deadlines": [
+        "04-06",
+        "04-27"
+      ],
+      "partner_only": true,
+      "rhythm": "Yearly; 2026 deadlines: LINZimPULS 6 Apr; LINZ_media_arts, LINZ_sounds, LinzIMpORT, LinzEXPOrt 27 Apr; LinzKultur/4 5 Oct; Kunstförderpreis (incl. 'Neue Medien') 31 Mar",
+      "amount": {
+        "note": "programme pots €10k–70k (LINZ_media_arts €20k in 2026; LINZimPULS €70k)"
+      },
+      "eligibility": "Artists and initiatives with a Linz connection; the lab joins as technical or research partner",
+      "summary": "Linz's yearly culture programmes, including LINZ_media_arts for the UNESCO City of Media Arts. The linked PDF is the 2026 overview of all programmes and deadlines.",
+      "fit_reason": "Media-art, sound or installation projects with Linz artists, with the lab building the interactive or AI parts.",
+      "fit": "medium",
+      "tags": [
+        "media art",
+        "installations",
+        "Linz",
+        "culture"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "linz-kongresse",
+      "name": "Stadt Linz – Förderung von Kongressen, Veranstaltungen & Messen",
+      "funder": "Stadt Linz, Wirtschaft, Innovation, Klimaschutz & EU",
+      "group": "Upper Austria · City of Linz",
+      "url": "https://www.linz.at/serviceguide/brochure.php?id=699",
+      "no_fetch": true,
+      "rolling": true,
+      "rhythm": "Rolling – apply before the event; guideline valid for the current year",
+      "amount": {
+        "max_eur": 3000,
+        "note": "per event, once per year per applicant"
+      },
+      "eligibility": "Organisers of congresses and events in Linz (companies, associations, institutions)",
+      "summary": "Small grants for congresses, workshops and fairs held in Linz; priorities include AI, big data, computer vision and English-language congresses.",
+      "fit_reason": "Co-funds a lab-organised workshop or conference in Linz, e.g. on serious games, XR or AI.",
+      "fit": "low",
+      "tags": [
+        "events",
+        "conferences",
+        "Linz"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "cdg-josef-ressel",
+      "name": "Josef Ressel Zentren (CDG) – research labs at universities of applied sciences",
+      "funder": "Christian Doppler Forschungsgesellschaft, funded by BMWET",
+      "group": "Austrian ministries & federal programmes",
+      "url": "https://www.bmwet.gv.at/Services/Foerderungen/CDG-ChristianDopplerForschungsgesellschaft/JosefRessel-Zentren-ForschungslaborsfuerFachhochschulen.html",
+      "rolling": true,
+      "ignore_default_closed": true,
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Applications any time; the CDG senate decides about twice a year",
+      "amount": {
+        "max_eur": 460000,
+        "funding_rate": "50% public, 50% company partners (more public share with SMEs)",
+        "note": "per year, for 5 years"
+      },
+      "eligibility": "Designed for FHs: an FH research group applies together with at least one company partner",
+      "summary": "Five-year application-oriented research labs at FHs with company partners. Recent centres cover digital platforms and care, not only hard tech.",
+      "fit_reason": "A long-term XR, HCI, computer-vision or serious-games centre at Hagenberg with Upper Austrian industry partners.",
+      "fit": "high",
+      "tags": [
+        "Josef Ressel Zentrum",
+        "FH",
+        "industry cooperation",
+        "long-term"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "bmwkms-digitale-transformation",
+      "name": "BMWKMS – Förderprogramm „Digitale Transformation“ (Kunst & Kultur)",
+      "funder": "Bundesministerium für Wohnen, Kunst, Kultur, Medien und Sport (BMWKMS)",
+      "group": "Austrian ministries & federal programmes",
+      "url": "https://www.bmwkms.gv.at/themen/kunst-und-kultur/schwerpunkte/digitalisierung/digitale-transformation.html",
+      "deadline_patterns": [
+        "Einreichfrist:?\\s*(\\d{1,2}\\.? \\w+ \\d{4})"
+      ],
+      "rhythm": "Yearly window (2026: 15 May – 31 Aug); next window expected ~May–Aug 2027",
+      "amount": {
+        "max_eur": 50000,
+        "note": "per project; €900k programme budget in 2026; own contribution required"
+      },
+      "eligibility": "Cultural institutions, associations and legal entities; universities excluded – check whether FH OÖ (GmbH) counts",
+      "summary": "Funds digitising cultural collections and estates, data quality, metadata and AI-assisted enrichment, with re-use (incl. gaming and VR) as intended outcomes.",
+      "fit_reason": "AI/computer-vision enrichment of cultural data, XR or game re-use of heritage collections with a museum partner.",
+      "fit": "medium",
+      "tags": [
+        "cultural heritage",
+        "digitisation",
+        "AI",
+        "XR"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "bmwkms-medienkunst",
+      "name": "BMWKMS – Medienkunst: Förderung von Einzelvorhaben",
+      "funder": "BMWKMS, Abteilung Bildende Kunst, Design, Fotografie, Medienkunst",
+      "group": "Austrian ministries & federal programmes",
+      "url": "https://www.bmwkms.gv.at/themen/kunst-und-kultur/sparten/bildende-kunst-design-mode-fotografie-medienkunst/foerderungen/einzelvorhaben.html",
+      "recurring_deadlines": [
+        "02-28",
+        "08-31"
+      ],
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Two windows every year: 1–28 February and 1–31 August",
+      "amount": {
+        "note": "partial funding of a project with a presentation plan"
+      },
+      "eligibility": "Artists, associations and institutions; not student work or projects with mainly social/therapeutic aims",
+      "summary": "Federal funding for media-art projects (exhibitions, presentations, publications).",
+      "fit_reason": "Interactive installations and media-art works by lab members or an associated artist, with a confirmed presentation venue.",
+      "fit": "medium",
+      "tags": [
+        "media art",
+        "installations",
+        "exhibitions"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "oead-citizen-science-award",
+      "name": "OeAD Citizen Science Award",
+      "funder": "OeAD on behalf of BMFWF",
+      "group": "Austrian ministries & federal programmes",
+      "url": "https://oead.at/de/studieren-forschen-lehren/citizen-science/zentrum-fuer-citizen-science/foerderungen/citizen-science-award",
+      "deadline_patterns": [
+        "bis (?:zum )?(\\d{1,2}\\.? \\w+ \\d{4}) geöffnet"
+      ],
+      "rhythm": "Yearly call (2027 award: 28 Sep – 20 Nov 2026); participation phase 1 April – 31 July",
+      "amount": {
+        "max_eur": 3000,
+        "note": "per selected project, paid out as prizes for participating classes"
+      },
+      "eligibility": "Research projects in Austria – FH projects apply directly",
+      "summary": "Research projects invite school classes, youth groups and the public to take part between April and July; the most active participants win prizes.",
+      "fit_reason": "Citizen-science apps such as AI wildlife detection or game-based data collection – little effort, good visibility with schools.",
+      "fit": "high",
+      "tags": [
+        "citizen science",
+        "schools",
+        "science communication"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "bmfwf-hochschul-ausschreibungen",
+      "name": "BMFWF – institutional calls for Hochschulen (e.g. FH-Sondermittel)",
+      "funder": "Bundesministerium für Frauen, Wissenschaft und Forschung (BMFWF)",
+      "group": "Austrian ministries & federal programmes",
+      "url": "https://www.bmfwf.gv.at/wissenschaft/hochschulsystem/ausschreibungen-hs.html",
+      "ignore_default_closed": true,
+      "rhythm": "Irregular; FH-Sondermittel 2026 closed 30 June 2026 (€100k–2M per project, decisions autumn 2026)",
+      "amount": {
+        "min_eur": 100000,
+        "max_eur": 2000000,
+        "note": "FH-Sondermittel 2026; ≥ 20% own contribution"
+      },
+      "eligibility": "The FH (Erhalter) applies; coordinate with FH OÖ management",
+      "summary": "The science ministry's calls for Hochschulen, such as special FH funds for cooperation, shared research infrastructure and access.",
+      "fit_reason": "Shared research infrastructure (XR, motion capture, AI compute) or FH cooperation projects; usually submitted by FH OÖ centrally.",
+      "fit": "medium",
+      "tags": [
+        "FH",
+        "infrastructure",
+        "cooperation"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "ars-docendi",
+      "name": "Ars Docendi – Staatspreis für exzellente Lehre",
+      "funder": "BMFWF",
+      "group": "Austrian ministries & federal programmes",
+      "url": "https://gutelehre.at/",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Yearly; 2026 focus 'Digitale Transformation und KI'; 2027 call not yet published",
+      "amount": {
+        "max_eur": 7000,
+        "note": "about €7k per category (€35k in total) plus recognition prizes"
+      },
+      "eligibility": "Teachers and teaching teams at Austrian universities and FHs",
+      "summary": "National prize for excellent university teaching; recent rounds focused on digital transformation and AI.",
+      "fit_reason": "XR, game-based or AI-supported teaching formats from the lab's degree programmes.",
+      "fit": "medium",
+      "tags": [
+        "teaching",
+        "AI in education",
+        "prize"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "oead-kulturvermittlung",
+      "name": "OeAD Kulturvermittlung mit Schulen – culture connected & other calls",
+      "funder": "OeAD on behalf of the Bildungsministerium",
+      "group": "Austrian ministries & federal programmes",
+      "url": "https://kulturvermittlung.oead.at/de/",
+      "deadline_patterns": [
+        "Aktuelle Fristen\\s*(\\d{1,2}\\.? \\w+ \\d{4})"
+      ],
+      "rhythm": "Several school-culture calls per year (culture connected: Sep – 1 Dec 2026)",
+      "amount": {
+        "max_eur": 2000,
+        "note": "culture connected: per school cooperation project"
+      },
+      "eligibility": "Cultural institutions or associations together with a school – the lab may need an associated association",
+      "summary": "Small grants for art and culture projects with schools, such as culture connected (cultural institution + school, at least two days, at least ten pupils).",
+      "fit_reason": "Installation, e-textile or game-design workshops with a school class.",
+      "fit": "low",
+      "tags": [
+        "schools",
+        "culture",
+        "workshops"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "africa-uninet",
+      "name": "Africa-UniNet – research cooperation projects",
+      "funder": "OeAD / BMFWF",
+      "group": "Austrian ministries & federal programmes",
+      "url": "https://africa-uninet.at/en/activities/the-7th-call-2026",
+      "deadline_patterns": [
+        "Deadline:?\\s*(\\d{1,2}\\.? \\w+ \\d{4})"
+      ],
+      "rhythm": "Calls roughly every 1–2 years (7th call: 1 Sep – 30 Nov 2026)",
+      "amount": {
+        "max_eur": 40000,
+        "note": "over 24 months"
+      },
+      "eligibility": "Members of Africa-UniNet who paid the yearly fee – check FH OÖ membership",
+      "summary": "Austrian–African research cooperation projects on any topic contributing to the SDGs.",
+      "fit_reason": "Drone-based wildlife detection or digital-education projects with an African partner university.",
+      "fit": "low",
+      "tags": [
+        "Africa",
+        "SDGs",
+        "research cooperation"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "bundesjugendfoerderung",
+      "name": "Bundes-Jugendförderung – project funding",
+      "funder": "Bundeskanzleramt, Sektion Jugend",
+      "group": "Austrian ministries & federal programmes",
+      "url": "https://www.bundeskanzleramt.gv.at/agenda/jugend/bundesjugendfoerderung/bundes-jugendfoerderung-foerderschwerpunkte.html",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "partner_only": true,
+      "rhythm": "Yearly project applications (2026: by 15 October); priorities 2025–26 include 'Digitale Welten und Medienkompetenz'",
+      "amount": {
+        "note": "not stated"
+      },
+      "eligibility": "Youth organisations; the lab joins as partner",
+      "summary": "Federal funding for youth-work projects; a current priority is digital worlds and media literacy.",
+      "fit_reason": "Serious games or media-literacy formats (e.g. spotting deepfakes) with a youth organisation.",
+      "fit": "low",
+      "tags": [
+        "youth",
+        "media literacy",
+        "digital worlds"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "digital-ueberall",
+      "name": "Digital Überall – workshop providers (Digitale Kompetenzoffensive)",
+      "funder": "Bundeskanzleramt, Staatssekretariat für Digitalisierung",
+      "group": "Austrian ministries & federal programmes",
+      "url": "https://www.bundeskanzleramt.gv.at/bundeskanzleramt/nachrichten-der-bundesregierung/2026/09/digital-ueberall-workshops-gehen-in-die-naechste-runde.html",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Yearly round for education providers (2026/27 round closed 25 Sep 2026)",
+      "amount": {
+        "note": "paid workshop units, not research money"
+      },
+      "eligibility": "Education providers across Austria – e.g. via FH continuing education",
+      "summary": "Free public workshops on digital skills (AI, fact-checking, e-government, seniors), delivered by contracted education providers.",
+      "fit_reason": "Outreach: AI-literacy or deepfake-awareness workshops based on lab research.",
+      "fit": "low",
+      "tags": [
+        "digital skills",
+        "AI literacy",
+        "outreach"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "lbg-ois",
+      "name": "LBG Open Innovation in Science Center – calls & Ideas Labs",
+      "funder": "Ludwig Boltzmann Gesellschaft",
+      "group": "Austrian ministries & federal programmes",
+      "url": "https://ois.lbg.ac.at/",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Irregular calls; currently part of Digital Health Austria (Ideas Labs, consortium building)",
+      "amount": {
+        "note": "varies by call"
+      },
+      "eligibility": "Research institutions and partners in open-innovation consortia",
+      "summary": "LBG's centre for open innovation in science runs Ideas Labs and co-creation calls, currently in digital health.",
+      "fit_reason": "Co-creation formats on digital and mental health – e.g. VR interventions or accessible interfaces.",
+      "fit": "medium",
+      "tags": [
+        "open innovation",
+        "digital health",
+        "co-creation"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "aws-creative-impact",
+      "name": "aws Creative Impact / aws impulse (creative industries, incl. games)",
+      "funder": "Austria Wirtschaftsservice (aws), BMWET",
+      "group": "Games, EdTech & tech-industry grants",
+      "url": "https://aws.at/en/aws-creative-impact/achieving-market-readiness",
+      "no_fetch": true,
+      "partner_only": true,
+      "rhythm": "Calls with cut-off dates during the year; decision within 3–4 months",
+      "amount": {
+        "max_eur": 200000,
+        "funding_rate": "50–70%",
+        "note": "XS track up to €45k at 70%"
+      },
+      "eligibility": "SMEs and start-ups of the creative industries; the lab joins as partner or subcontractor",
+      "summary": "Austria's main funding for innovative creative-industry projects, explicitly including gaming. There is no separate federal games-funding programme.",
+      "fit_reason": "Game, XR or interactive-media projects with an Upper Austrian studio (e.g. Rudy Games), the lab doing the research part.",
+      "fit": "medium",
+      "tags": [
+        "games",
+        "creative industries",
+        "SMEs"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "maria-schaumayer",
+      "name": "Dr. Maria Schaumayer Stiftung – prizes for women researchers",
+      "funder": "Dr. Maria Schaumayer Stiftung",
+      "group": "Austrian foundations & public funds",
+      "url": "https://fgga.univie.ac.at/service/drittmittelservice-calls/details/news/award-dr-maria-schaumayer-stiftung-for-women/",
+      "recurring_deadlines": [
+        "04-15",
+        "10-15"
+      ],
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Two deadlines a year: 15 April and 15 October",
+      "amount": {
+        "note": "prizes for theses and habilitations"
+      },
+      "eligibility": "Individual women (master's thesis, dissertation, habilitation)",
+      "summary": "Prizes for outstanding theses by women, with a focus on economics, social sciences and women's careers.",
+      "fit_reason": "Only for theses by women in the lab on gender or workforce topics in HCI.",
+      "fit": "low",
+      "tags": [
+        "prize",
+        "women in research"
+      ],
+      "language": "de"
+    },
+    {
+      "id": "biodiversa-fwf",
+      "name": "Biodiversa+ – BiodivFuture joint call (via FWF)",
+      "funder": "European Biodiversity Partnership; Austrian part funded by FWF",
+      "group": "European partnerships & networks",
+      "url": "https://www.fwf.ac.at/en/funding/portfolio/subject-specific-funding/european-partnership-biodiversa",
+      "deadline_patterns": [
+        "open until (\\w+ \\d{1,2}, \\d{4}) for pre",
+        "deadline (\\w+ \\d{1,2}, \\d{4})"
+      ],
+      "rhythm": "Last Biodiversa+ call: pre-proposal 10 Nov 2026 (FWF national: 11 Nov), full proposal April 2027",
+      "amount": {
+        "max_eur": 450000,
+        "note": "per Austrian principal investigator, via FWF"
+      },
+      "eligibility": "Austrian research institutions in a transnational consortium",
+      "summary": "Transnational biodiversity research call; the Austrian share is funded by FWF.",
+      "fit_reason": "Drone-based light-field imaging and AI wildlife detection (cf. BAMBI) inside an ecology consortium.",
+      "fit": "low",
+      "tags": [
+        "biodiversity",
+        "monitoring",
+        "drones",
+        "computer vision"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "resilient-cultural-heritage",
+      "name": "European Partnership for Resilient Cultural Heritage – joint calls",
+      "funder": "Partnership of national research funders (successor of JPI Cultural Heritage), EC co-funded",
+      "group": "European partnerships & networks",
+      "url": "https://english.cultureelerfgoed.nl/topics/j/jpich/partnership-for-resilient-cultural-heritage",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Partnership started 29 Sep 2026 (2026–2036, ~€130M); first calls expected late 2026 / 2027 – announced on the Heritage Research Hub",
+      "amount": {
+        "note": "national funding per partner; amounts set per call"
+      },
+      "eligibility": "Research institutions in participating countries (Austria has 3 partners)",
+      "summary": "New ten-year European partnership funding transnational research on cultural heritage.",
+      "fit_reason": "Digital heritage, museum XR, 3D reconstruction and AI on heritage data (cf. Virtual House of Medusa).",
+      "fit": "high",
+      "tags": [
+        "cultural heritage",
+        "museums",
+        "digital heritage"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "thcs",
+      "name": "THCS – Transforming Health and Care Systems joint calls",
+      "funder": "European Partnership THCS; Austrian part funded by FFG",
+      "group": "European partnerships & networks",
+      "url": "https://www.thcspartnership.eu/",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Yearly joint call; JTC 2027 pre-announcement expected ~Nov 2026",
+      "amount": {
+        "min_eur": 100000,
+        "note": "per Austrian partner in 2026 (FFG budget €1M); FHs were explicitly eligible"
+      },
+      "eligibility": "Transnational consortia; Austrian FHs eligible via FFG",
+      "summary": "European partnership funding research on health and care systems, e.g. access to care and digital services.",
+      "fit_reason": "Digital-health and accessibility work – e.g. care apps (cf. Lica), VR therapy or accessible interfaces.",
+      "fit": "medium",
+      "tags": [
+        "health",
+        "care",
+        "digital health",
+        "accessibility"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "brainhealth",
+      "name": "EP BrainHealth – joint transnational calls",
+      "funder": "European Partnership for Brain Health",
+      "group": "European partnerships & networks",
+      "url": "https://www.brainhealth-partnership.eu/calls/",
+      "rhythm": "Yearly calls; JTC 2026 closed 10 Mar 2026 – check whether FWF/FFG join the 2027 call",
+      "amount": {
+        "note": "national funding; depends on the Austrian funder joining"
+      },
+      "eligibility": "Research consortia; Austria funds only when FWF or FFG participates",
+      "summary": "European partnership on brain health, including mental and neurological disorders.",
+      "fit_reason": "Mental-health VR (cf. VR Burnout) if a mental-health call with Austrian funding opens.",
+      "fit": "low",
+      "tags": [
+        "mental health",
+        "brain health",
+        "VR"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "chist-era",
+      "name": "CHIST-ERA – ICT research calls",
+      "funder": "CHIST-ERA network (FWF participated in 2025)",
+      "group": "European partnerships & networks",
+      "url": "https://www.chistera.eu/",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Yearly calls until 2025; no 2026 call published – watch for a follow-up",
+      "amount": {
+        "note": "national funding via FWF"
+      },
+      "eligibility": "Research consortia in participating countries",
+      "summary": "Transnational calls on emerging ICT topics such as explainable AI and human–machine interaction.",
+      "fit_reason": "Basic-research projects on AI, HCI or visual computing with European partners.",
+      "fit": "low",
+      "tags": [
+        "ICT",
+        "AI",
+        "basic research"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "eurostars-ffg",
+      "name": "Eurostars-3 (EUREKA) – R&D projects led by SMEs",
+      "funder": "EUREKA / EU; Austrian partners funded by FFG",
+      "group": "European partnerships & networks",
+      "url": "https://www.ffg.at/en/eurostars-3",
+      "deadline_patterns": [
+        "CoD\\d+\\s+(\\d{1,2} \\w+,? ?\\d{4})"
+      ],
+      "partner_only": true,
+      "rhythm": "Two cut-offs a year, usually March and September",
+      "amount": {
+        "note": "national funding through FFG; research partners up to 50–60%"
+      },
+      "eligibility": "An R&D-performing SME leads; research institutions join as partners",
+      "summary": "International R&D projects led by innovative SMEs, funded nationally.",
+      "fit_reason": "Applied AI, XR or computer-vision products with an SME partner from Austria and abroad.",
+      "fit": "medium",
+      "tags": [
+        "SMEs",
+        "international",
+        "R&D"
+      ],
+      "language": "en",
+      "no_text_amount": true
+    },
+    {
+      "id": "culture-moves-europe",
+      "name": "Culture Moves Europe – mobility grants & residency hosts",
+      "funder": "European Commission (Creative Europe), run by the Goethe-Institut",
+      "group": "European partnerships & networks",
+      "url": "https://culture.ec.europa.eu/culture-moves-europe/home",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "New calls each year (next round expected from ~October 2026); not on the EU funding portal",
+      "amount": {
+        "note": "€85 per day plus travel per artist; hosts receive support for 1–5 artists"
+      },
+      "eligibility": "Individual artists; legal entities as residency hosts",
+      "summary": "EU mobility scheme for artists and cultural professionals, including grants for organisations that host international artists.",
+      "fit_reason": "Hosting media artists at the lab for collaborations on installations, XR or creative AI.",
+      "fit": "medium",
+      "tags": [
+        "residency",
+        "mobility",
+        "media art"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "db-interreg-eu",
+      "name": "Interreg.eu – all open Interreg calls (keep.eu)",
+      "funder": "Interact programme",
+      "group": "Call databases (browse manually)",
+      "url": "https://interreg.eu/calls-for-projects/",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Live list of all open calls across the 86 Interreg programmes (JavaScript page – open it to browse)",
+      "amount": {
+        "funding_rate": "typically up to 80%"
+      },
+      "eligibility": "Depends on the programme area",
+      "summary": "One page for every open Interreg call in Europe. The radar reads Interreg BY–AT and AT–CZ directly; check here for Interreg Central Europe, Danube, Alpine Space and Interreg Europe.",
+      "fit_reason": "Catch-all for Interreg Central Europe, Danube, Alpine Space and Interreg Europe calls.",
+      "fit": "low",
+      "tags": [
+        "Interreg",
+        "database"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "db-era-learn",
+      "name": "ERA-LEARN – European Partnership joint calls",
+      "funder": "ERA-LEARN (EU)",
+      "group": "Call databases (browse manually)",
+      "url": "https://www.era-learn.eu/network-information/overview-jointcalls",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Database of all joint calls of European Partnerships, filterable by country (Austria)",
+      "amount": {
+        "note": "national funding per call"
+      },
+      "eligibility": "Depends on the call",
+      "summary": "Official database of transnational partnership calls (heritage, health, urban, biodiversity …) where FWF or FFG fund the Austrian partners.",
+      "fit_reason": "Finds transnational calls on heritage, health or urban topics that are not on the EU portal.",
+      "fit": "low",
+      "tags": [
+        "European Partnerships",
+        "database"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "db-heritage-hub",
+      "name": "Heritage Research Hub – cultural-heritage funding",
+      "funder": "JPI Cultural Heritage / Resilient Cultural Heritage Partnership",
+      "group": "Call databases (browse manually)",
+      "url": "https://www.heritageresearch-hub.eu/funding/",
+      "no_fetch": true,
+      "rhythm": "Funding list for heritage research (JavaScript page – open it to browse)",
+      "amount": {
+        "note": "varies"
+      },
+      "eligibility": "Depends on the call",
+      "summary": "Where the European heritage partnership and other heritage funders announce calls, access programmes and prizes.",
+      "fit_reason": "Heritage-science, museum and digital-heritage calls for XR, 3D and AI work.",
+      "fit": "medium",
+      "tags": [
+        "cultural heritage",
+        "database"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "db-onepass",
+      "name": "OnePass (FundingBox) – EU cascade-funding open calls",
+      "funder": "FundingBox",
+      "group": "Call databases (browse manually)",
+      "url": "https://opportunities.getonepass.eu/",
+      "no_fetch": true,
+      "rhythm": "Live list of 350+ third-party calls run by EU projects (JavaScript page – open it to browse)",
+      "amount": {
+        "note": "typically €20k–300k per beneficiary"
+      },
+      "eligibility": "Mostly SMEs and start-ups; some calls accept research organisations",
+      "summary": "FundingBox runs many EU cascade-funding calls (XR, AI, data, health). The radar already reads cascade calls listed on the EU portal.",
+      "fit_reason": "XR and AI open calls that are not on the EU portal.",
+      "fit": "low",
+      "tags": [
+        "cascade funding",
+        "database",
+        "XR",
+        "AI"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "db-digital-skills",
+      "name": "Digital Skills & Jobs Platform – funding opportunities",
+      "funder": "European Commission",
+      "group": "Call databases (browse manually)",
+      "url": "https://digital-skills-jobs.europa.eu/en/initiatives/funding",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "List of EU and cascade calls on digital education and skills",
+      "amount": {
+        "note": "varies; XR-education cascade calls up to €150–300k"
+      },
+      "eligibility": "Depends on the call; many XR-education calls need an SME lead",
+      "summary": "EU platform listing calls on digital skills and education, including XR-learning cascade calls.",
+      "fit_reason": "XR and AI-in-education calls for the lab's educational games.",
+      "fit": "low",
+      "tags": [
+        "digital education",
+        "XR",
+        "database"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "db-interreg-danube",
+      "name": "Interreg Danube Region programme",
+      "funder": "Interreg Danube Region (EU)",
+      "group": "Multinational programmes (CEI, Interreg)",
+      "url": "https://interreg-danube.eu/",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "3rd call closed Dec 2025; no 4th call announced yet",
+      "amount": {
+        "funding_rate": "up to 80%"
+      },
+      "eligibility": "Organisations in the Danube region, incl. all of Austria",
+      "summary": "Transnational cooperation in the Danube region on innovation, environment, inclusion and governance.",
+      "fit_reason": "Transnational education, heritage or digital-inclusion projects with Danube-region partners.",
+      "fit": "low",
+      "tags": [
+        "Interreg",
+        "Danube region"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "amazon-research-awards",
+      "name": "Amazon Research Awards",
+      "funder": "Amazon",
+      "group": "Games, EdTech & tech-industry grants",
+      "url": "https://www.amazon.science/research-awards/call-for-proposals",
+      "no_fetch": true,
+      "no_fetch_reason": "Amazon's conditions of use forbid robots and data-gathering tools: listed from this curated entry only, check the page by hand",
+      "rhythm": "Spring and fall calls (Fall 2026 closes 4 Nov 2026); topics change every round",
+      "amount": {
+        "min_eur": 70000,
+        "max_eur": 100000,
+        "currency": "USD",
+        "note": "unrestricted gift plus AWS credits"
+      },
+      "eligibility": "Faculty at universities worldwide",
+      "summary": "Unrestricted research funding for academics on changing topics such as agentic AI, multimodal perception and information security.",
+      "fit_reason": "LLM applications, computer vision and synthetic-data work of the lab.",
+      "fit": "medium",
+      "tags": [
+        "AI",
+        "computer vision",
+        "industry award"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "google-academic-research-awards",
+      "name": "Google Academic Research Awards",
+      "funder": "Google Research",
+      "group": "Games, EdTech & tech-industry grants",
+      "url": "https://research.google/programs-and-events/google-academic-research-awards/",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Yearly call with changing topics (2026: quantum computing only)",
+      "amount": {
+        "note": "up to about $100k per award"
+      },
+      "eligibility": "Professors at universities worldwide",
+      "summary": "Google's academic awards for research in computing; topics change every year.",
+      "fit_reason": "Worth checking each year for HCI, AI or education topics.",
+      "fit": "low",
+      "tags": [
+        "AI",
+        "industry award"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "anthropic-ai-for-science",
+      "name": "Anthropic AI for Science – API credits for researchers",
+      "funder": "Anthropic",
+      "group": "Games, EdTech & tech-industry grants",
+      "url": "https://www.anthropic.com/news/expanding-support-for-scientists",
+      "no_fetch": true,
+      "no_fetch_reason": "the site refuses automated requests (403 for our bot User-Agent): listed from this curated entry only, check the page by hand",
+      "rolling": true,
+      "ignore_default_closed": true,
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Rolling applications",
+      "amount": {
+        "max_eur": 50000,
+        "currency": "USD",
+        "note": "in API credits, not cash"
+      },
+      "eligibility": "Principal investigators at academic and non-profit institutions",
+      "summary": "Claude API credits for research projects, since August 2026 beyond the life sciences.",
+      "fit_reason": "LLM-based web apps and AI-education research of the lab.",
+      "fit": "medium",
+      "tags": [
+        "LLM",
+        "AI",
+        "compute credits"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "wikimedia-research-fund",
+      "name": "Wikimedia Research Fund",
+      "funder": "Wikimedia Foundation",
+      "group": "International foundations & prizes",
+      "url": "https://meta.wikimedia.org/wiki/Grants:Programs/Wikimedia_Research_Fund",
+      "no_fetch": true,
+      "rhythm": "Yearly round; letter of intent usually in January (2026: 16 Jan), full proposal in April",
+      "amount": {
+        "min_eur": 2000,
+        "max_eur": 150000,
+        "currency": "USD",
+        "note": "up to $50k (types 1 & 3) or $150k over 24 months (type 2)"
+      },
+      "eligibility": "Researchers and institutions worldwide",
+      "summary": "Funds research on and with Wikimedia projects and open knowledge.",
+      "fit_reason": "Visualisation of open knowledge, cultural-heritage data on Wikidata/Commons, citizen science.",
+      "fit": "medium",
+      "tags": [
+        "open knowledge",
+        "data visualisation",
+        "cultural heritage"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "mozilla-foundation",
+      "name": "Mozilla Foundation – incubator cohorts & fellowships",
+      "funder": "Mozilla Foundation",
+      "group": "International foundations & prizes",
+      "url": "https://www.mozillafoundation.org/en/what-we-do/grantmaking/",
+      "no_fetch": true,
+      "no_fetch_reason": "the site refuses automated requests (403 for our bot User-Agent): listed from this curated entry only, check the page by hand",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Yearly cohorts (Democracy x AI cohort closed 16 Mar 2026; Fellows closed 31 Aug 2026)",
+      "amount": {
+        "min_eur": 50000,
+        "max_eur": 125000,
+        "currency": "USD"
+      },
+      "eligibility": "Open globally; projects and fellows",
+      "summary": "Grants for trustworthy AI, democracy and an open internet.",
+      "fit_reason": "Deepfake and disinformation detection, trustworthy-AI tools.",
+      "fit": "medium",
+      "tags": [
+        "trustworthy AI",
+        "disinformation",
+        "democracy"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "emif",
+      "name": "European Media and Information Fund (EMIF)",
+      "funder": "Calouste Gulbenkian Foundation & European University Institute",
+      "group": "International foundations & prizes",
+      "url": "https://gulbenkian.pt/emifund/",
+      "no_fetch": true,
+      "no_fetch_reason": "the site refuses automated requests (403 for our bot User-Agent): listed from this curated entry only, check the page by hand",
+      "rhythm": "Irregular calls (SAFE initiative closed 27 Feb 2026); future of the fund unclear",
+      "amount": {
+        "note": "varies by call"
+      },
+      "eligibility": "Organisations in the EU, EFTA or UK",
+      "summary": "Funds research, media literacy and fact-checking against disinformation.",
+      "fit_reason": "Deepfake and manipulation detection (cf. MultiLayerFakeDetect) and media-literacy games.",
+      "fit": "high",
+      "tags": [
+        "disinformation",
+        "deepfakes",
+        "media literacy"
+      ],
+      "language": "en",
+      "no_text_amount": true
+    },
+    {
+      "id": "wellcome-mental-health",
+      "name": "Wellcome – Mental Health awards",
+      "funder": "Wellcome Trust",
+      "group": "International foundations & prizes",
+      "url": "https://wellcome.org/research-funding/schemes",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Several mental-health calls a year; eligibility differs per call (some open to EU applicants)",
+      "amount": {
+        "note": "varies by scheme"
+      },
+      "eligibility": "Depends on the call – check each scheme",
+      "summary": "Wellcome funds mental-health research, including digital interventions.",
+      "fit_reason": "VR and digital interventions for mental health (cf. VR Burnout).",
+      "fit": "low",
+      "tags": [
+        "mental health",
+        "digital interventions",
+        "VR"
+      ],
+      "language": "en"
+    },
+    {
+      "id": "zero-project",
+      "name": "Zero Project Awards – accessibility innovations",
+      "funder": "Essl Foundation (Zero Project)",
+      "group": "International foundations & prizes",
+      "url": "https://zeroproject.org/research/call-for-nominations-2027",
+      "never_parse_dates": true,
+      "no_text_amount": true,
+      "rhythm": "Yearly call for nominations, about mid-May to end of June; rotating themes",
+      "amount": {
+        "note": "no money – recognition and presentation at the UN Vienna conference"
+      },
+      "eligibility": "Projects and organisations worldwide, by nomination",
+      "summary": "Austrian foundation's yearly awards for innovations that improve the lives of people with disabilities.",
+      "fit_reason": "Accessibility work such as BlindBits or accessible web tools.",
+      "fit": "medium",
+      "tags": [
+        "accessibility",
+        "inclusion",
+        "prize"
+      ],
+      "language": "en"
     }
   ]
 }

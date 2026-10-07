@@ -13,14 +13,15 @@
     "title_multiplier": 3,
     "saturation": 18,
     "ineligible_penalty": 0.6,
-    "_comment": "relevance = 100*(1-exp(-raw/saturation)); raw = sum over areas of weight*(title_multiplier*title_hits + body_hits), '~' terms count 0.3, each area capped at 9*weight; programme_bonus adds raw points for instruments that suit an FH lab regardless of topic",
-    "weak_term_factor": 0.3
+    "_comment": "relevance = 100*(1-exp(-raw/saturation)); raw = sum over research areas (and themes) of weight*(title_multiplier*title_hits + body_hits), counting each matched term once per area; '~' terms count 0.3; each area capped at 9*weight. All six research areas share area_weight (no area is favoured); cross-cutting themes share the lower theme_weight. programme_bonus adds raw points for instruments that suit an FH lab regardless of topic.",
+    "weak_term_factor": 0.3,
+    "area_weight": 2.5,
+    "theme_weight": 1.5
   },
   "areas": [
     {
       "key": "games",
       "label": "Serious games & playful experiences",
-      "weight": 3.0,
       "terms": [
         "serious game",
         "serious games",
@@ -54,7 +55,6 @@
     {
       "key": "edugames",
       "label": "Educational games & game-based learning",
-      "weight": 3.5,
       "terms": [
         "educational game",
         "educational games",
@@ -99,7 +99,6 @@
     {
       "key": "xr",
       "label": "XR & spatial computing",
-      "weight": 3.0,
       "terms": [
         "virtual reality",
         "augmented reality",
@@ -129,7 +128,6 @@
     {
       "key": "installations",
       "label": "Interactive installations, media art & cultural heritage",
-      "weight": 2.5,
       "terms": [
         "interactive installation",
         "projection mapping",
@@ -162,7 +160,6 @@
     {
       "key": "vision",
       "label": "Visual computing & computer vision",
-      "weight": 2.5,
       "terms": [
         "computer vision",
         "image analysis",
@@ -185,14 +182,23 @@
         "Bildverarbeitung",
         "Drohne",
         "Drohnen",
-        "Bilderkennung"
+        "Bilderkennung",
+        "media forensics",
+        "manipulated media",
+        "image forensics",
+        "3D scanning",
+        "photogrammetry",
+        "camera trap",
+        "camera traps",
+        "visual inspection",
+        "video analysis",
+        "generative imaging"
       ],
       "short": "Computer vision"
     },
     {
       "key": "ai",
       "label": "AI, LLMs & intelligent web applications",
-      "weight": 2.0,
       "terms": [
         "large language model",
         "large language models",
@@ -220,14 +226,24 @@
         "Sprachmodell",
         "Sprachmodelle",
         "~web application",
-        "~content management"
+        "~content management",
+        "recommender system",
+        "recommender systems",
+        "knowledge graph",
+        "retrieval-augmented",
+        "AI agents",
+        "agentic AI",
+        "semantic web",
+        "web platform",
+        "intelligent web",
+        "decision engine",
+        "Prozessautomatisierung"
       ],
       "short": "AI & LLMs"
     },
     {
       "key": "hci",
       "label": "HCI, UX & interface research",
-      "weight": 2.5,
       "terms": [
         "human-computer interaction",
         "human computer interaction",
@@ -250,14 +266,21 @@
         "Benutzerfreundlichkeit",
         "Mensch-Maschine",
         "Nutzererfahrung",
-        "Mensch-Computer"
+        "Mensch-Computer",
+        "user study",
+        "user studies",
+        "usability testing",
+        "research through design",
+        "intelligent user interface",
+        "intelligent user interfaces",
+        "human-AI interaction",
+        "human-AI collaboration"
       ],
       "short": "HCI & UX"
     },
     {
       "key": "dataviz",
       "label": "Data visualization",
-      "weight": 2.5,
       "terms": [
         "data visualisation",
         "data visualization",
@@ -270,14 +293,38 @@
         "sonification",
         "data literacy",
         "~Visualisierung",
-        "Datenvisualisierung"
+        "Datenvisualisierung",
+        "interactive visualisation",
+        "interactive visualization",
+        "data storytelling",
+        "information design",
+        "visual data exploration",
+        "~data exploration",
+        "scientific visualisation",
+        "scientific visualization",
+        "geovisualisation",
+        "geovisualization",
+        "infographic",
+        "infographics",
+        "explorable explanation",
+        "~visual analysis",
+        "~open data",
+        "~data spaces",
+        "~decision support",
+        "~data-driven",
+        "Datenkompetenz",
+        "Informationsvisualisierung",
+        "Datenvisualisierungen",
+        "visualisation literacy",
+        "visualization literacy",
+        "accessible visualisation",
+        "accessible visualization"
       ],
       "short": "Data viz"
     },
     {
       "key": "tangible",
       "label": "Smart & tangible interfaces",
-      "weight": 2.0,
       "terms": [
         "tangible",
         "smart textiles",
@@ -293,14 +340,29 @@
         "~Internet of Things",
         "~cs:IoT",
         "smarte Textilien",
-        "~Sensorik"
+        "~Sensorik",
+        "tangible interface",
+        "tangible interfaces",
+        "tangible user interface",
+        "smart objects",
+        "smart materials",
+        "interactive textiles",
+        "shape-changing",
+        "haptic feedback",
+        "digital fabrication",
+        "smart textile",
+        "soft robotics",
+        "~sensor",
+        "~sensors",
+        "ambient intelligence",
+        "sensor-based interaction",
+        "interaktive Textilien"
       ],
       "short": "Smart & tangible"
     },
     {
       "key": "education",
       "label": "Digital education & science communication",
-      "weight": 2.5,
       "terms": [
         "digital education",
         "~education",
@@ -356,7 +418,6 @@
     {
       "key": "society",
       "label": "Societal impact (democracy, climate, health, participation)",
-      "weight": 1.5,
       "terms": [
         "disinformation",
         "misinformation",
@@ -393,7 +454,6 @@
     {
       "key": "open",
       "label": "Topic-open / applied research instruments",
-      "weight": 2.0,
       "terms": [
         "themenoffen",
         "thematisch offen",
@@ -524,15 +584,43 @@
     "media education",
     "youth digital participation",
     "climate games",
-    "history education"
+    "history education",
+    "information visualisation",
+    "interactive visualisation",
+    "data literacy",
+    "data storytelling",
+    "open data citizens",
+    "visualisation decision support",
+    "sonification",
+    "tangible interfaces",
+    "e-textiles",
+    "smart objects interaction",
+    "haptic interfaces",
+    "embodied interaction",
+    "physical computing",
+    "Internet of Things citizens",
+    "image analysis",
+    "remote sensing AI",
+    "3D reconstruction",
+    "media forensics",
+    "synthetic media detection",
+    "wildlife monitoring",
+    "process mining",
+    "conversational agents",
+    "trustworthy AI",
+    "natural language processing",
+    "recommender systems",
+    "intelligent user interfaces",
+    "inclusive design",
+    "virtual humans"
   ],
   "programme_bonus": {
     "_comment": "regex on title -> raw bonus points (instrument suits an FH research lab regardless of topic)",
-    "COIN|FH[- ]Forschung|Bridge|Laura Bassi|Ideen Lab|Qualifizierungsprojekt|Weiterbildungs-?LAB|Talente|Praktika|Innovationsscheck|Collective Research|COST Open Call|Basisprogramm(?! Kleinprojekt)|Impact Innovation|Digital Health|AI Ökosysteme|Pathfinder|MSCA|Dissemination|1000 Ideen|1000 Ideas|Citizen Science|Sparkling Science|netidee|Innovationsstiftung|ConnectingMinds|Kleinprojekte|Einzelprojekte$|Entwicklung und Erschließung der Künste|Proof of Concept|Interreg": 12
+    "COIN|FH[- ]Forschung|Bridge|Laura Bassi|Ideen Lab|Qualifizierungsprojekt|Weiterbildungs-?LAB|Talente|Praktika|Innovationsscheck|Collective Research|COST Open Call|Basisprogramm(?! Kleinprojekt)|Impact Innovation|Digital Health|AI Ökosysteme|Pathfinder|MSCA|Dissemination|1000 Ideen|1000 Ideas|Citizen Science|Sparkling Science|netidee|Innovationsstiftung|ConnectingMinds|Kleinprojekte|Einzelprojekte$|Entwicklung und Erschließung der Künste|Proof of Concept|Interreg|ITEA call": 12
   },
   "synergies": [
     {
-      "_comment": "extra raw points when a call hits BOTH area groups (e.g. games AND education) - the lab's core niche",
+      "_comment": "tagging only (bonus 0, all areas weigh the same): a games/XR call that also hits education is tagged as an educational game",
       "any_of": [
         "games",
         "edugames",
@@ -542,13 +630,14 @@
         "education",
         "edugames"
       ],
-      "bonus": 10,
-      "label": "Educational games niche",
+      "bonus": 0,
+      "label": "Games + education",
       "adds_topics": [
         "edugames"
       ]
     },
     {
+      "_comment": "tagging only: games/XR in museums or exhibitions are tagged as installations & heritage",
       "any_of": [
         "games",
         "xr",
@@ -557,11 +646,63 @@
       "and_any_of": [
         "installations"
       ],
-      "bonus": 4,
+      "bonus": 0,
       "label": "Museum / exhibition games",
       "adds_topics": [
         "installations"
       ]
     }
+  ],
+  "research_areas": [
+    {
+      "key": "vision",
+      "label": "Visual Computing",
+      "topics": [
+        "vision"
+      ]
+    },
+    {
+      "key": "web",
+      "label": "Intelligent Web Applications",
+      "topics": [
+        "ai"
+      ]
+    },
+    {
+      "key": "games",
+      "label": "Games and Playful Experiences",
+      "topics": [
+        "games",
+        "edugames",
+        "installations"
+      ]
+    },
+    {
+      "key": "ui",
+      "label": "User Interfaces",
+      "topics": [
+        "hci",
+        "xr"
+      ]
+    },
+    {
+      "key": "tangible",
+      "label": "Smart and Tangible",
+      "topics": [
+        "tangible"
+      ]
+    },
+    {
+      "key": "dataviz",
+      "label": "Data Visualization",
+      "topics": [
+        "dataviz"
+      ]
+    }
+  ],
+  "themes": [
+    "education",
+    "society",
+    "open"
   ]
 }

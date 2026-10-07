@@ -30,28 +30,35 @@ class Scorer:
         self.neg_w = profile.get("negative_weight", 2.0)
         self.elig = [_compile(t) for t in profile.get("eligible_applicant_terms", [])]
         self.synergies = profile.get("synergies", [])
+        # scoring groups: the lab's research areas (equal weight) and the cross-cutting themes (lower, equal weight)
+        by_key = {a["key"]: a for a in self.areas}
+        self.groups = [(g["topics"], self.cfg["area_weight"]) for g in profile["research_areas"]] \
+            + [([t], self.cfg["theme_weight"]) for t in profile.get("themes", [])]
+        grouped = {t for ts, _ in self.groups for t in ts}
+        assert grouped == set(by_key), f"every topic must belong to one research area or theme: {set(by_key) ^ grouped}"
 
     def score(self, c: Call) -> None:
         title = f"{c.title} {c.programme}"
         body = f"{c.description} {' '.join(c.keywords)}"
         tm = self.cfg.get("title_multiplier", 3)
         raw, areas, terms, hit_keys, topics = 0.0, [], set(), set(), {}
-        for a in self.areas:
+        f = lambda hs: sum(self.weak if w else 1.0 for _, w in hs)  # noqa: E731
+        hits_of = {}
+        for a in self.areas:                       # per topic: drives the tags shown on the call
             t_hits = {(lbl, w) for rx, lbl, w in a["rx"] if rx.search(title)}
             b_hits = {(lbl, w) for rx, lbl, w in a["rx"] if rx.search(body)} - t_hits
-            f = lambda hs: sum(self.weak if w else 1.0 for _, w in hs)  # noqa: E731
-            hits = tm * f(t_hits) + f(b_hits)
-            t_hits, b_hits = {l for l, _ in t_hits}, {l for l, _ in b_hits}
-            if hits:
-                contrib = min(a["weight"] * hits, a["weight"] * 9)
-                raw += contrib
-                if contrib >= a["weight"]:          # at least one real (non-weak) hit
-                    hit_keys.add(a["key"])
-                if contrib >= a["weight"] * 2 or t_hits:
-                    areas.append(a["label"])
-                if contrib >= a["weight"]:      # >= one specific (non-generic) term: tag the topic
-                    topics[a["key"]] = round(contrib / a["weight"], 1)   # strength: 1 … 9
-                terms |= t_hits | b_hits
+            hits_of[a["key"]] = (t_hits, b_hits)
+            n = tm * f(t_hits) + f(b_hits)
+            if n >= 1:                             # at least one specific (non-generic) term
+                hit_keys.add(a["key"])
+                topics[a["key"]] = round(min(n, 9), 1)   # strength: 1 … 9
+            if n >= 2 or t_hits:
+                areas.append(a["label"])
+            terms |= {l for l, _ in t_hits | b_hits}
+        for keys, weight in self.groups:           # per research area: equal weight, terms counted once, capped once
+            t_hits = set().union(*(hits_of[k][0] for k in keys))
+            b_hits = set().union(*(hits_of[k][1] for k in keys)) - t_hits
+            raw += weight * min(tm * f(t_hits) + f(b_hits), 9)
         for syn in self.synergies:
             if hit_keys & set(syn["any_of"]) and hit_keys & set(syn["and_any_of"]) and                     (set(syn["any_of"]) & hit_keys) != (set(syn["and_any_of"]) & hit_keys):
                 raw += syn["bonus"]
@@ -71,7 +78,10 @@ class Scorer:
         # (watchlist entries carry curated eligibility; they opt in via "partner_only" instead)
         if c.eligibility and not c.id.startswith("watch:") and not any(rx.search(c.eligibility) for rx in self.elig):
             rel *= self.cfg.get("ineligible_penalty", 0.6)
-            c.eligibility = "⚠ Research institutions/FHs are not listed as applicants – partner/subcontractor role only. " + c.eligibility
+            warn = "⚠ Research institutions/FHs are not listed as applicants – partner/subcontractor role only. "
+            c.eligibility = warn + c.eligibility
+            if c.eligibility_public is not None:
+                c.eligibility_public = warn + c.eligibility_public
 
         c.relevance = int(round(rel))
         c.matched_areas = areas

@@ -9,6 +9,7 @@ import time
 from dataclasses import asdict, dataclass, field
 from datetime import date, datetime
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 import requests
 from bs4 import BeautifulSoup
@@ -17,10 +18,9 @@ ROOT = Path(__file__).resolve().parent.parent
 CACHE_DIR = ROOT / "data" / "cache" / "http"
 log = logging.getLogger("scraper")
 
-UA = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/128.0 Safari/537.36 DML-Antragsscraper/1.0"
-)
+# Honest bot name plus a link to the repo, so site operators can see who we are and how to reach us.
+BOT = "DML-Antragsscraper"
+UA = f"{BOT}/1.0 (+https://github.com/Paul-Huemer/FundingCallScrape; Digital Media Lab, FH OÖ Hagenberg)"
 
 
 # --------------------------------------------------------------------------- model
@@ -53,9 +53,11 @@ class Call:
     deadline_note: str | None = None  # e.g. "two-stage", "continuous until 31.12."
     description: str = ""       # cleaned plain text used for scoring/summarising
     summary: str = ""
+    summary_source: str = ""    # "ai" (own words) | "curated" (watchlist entry) | "extract" (funder's own sentences)
     fit_reason: str = ""
     amount: Amount = field(default_factory=Amount)
     eligibility: str = ""
+    eligibility_public: str | None = None   # set when `eligibility` holds funder prose that may not be republished
     keywords: list[str] = field(default_factory=list)
     language: str = "en"
     relevance: int = 0
@@ -72,37 +74,134 @@ class Call:
 
 # --------------------------------------------------------------------------- http
 
+class RobotsDisallowed(RuntimeError):
+    """The site's robots.txt does not allow us to fetch this URL."""
+
+
+class Robots:
+    """robots.txt rules for one host, with Google-style `*` and `$` wildcards
+    (urllib.robotparser ignores wildcards, which many Drupal sites rely on)."""
+
+    def __init__(self, txt: str, agent: str = BOT):
+        self.failed_at = 0.0             # set when robots.txt could not be fetched (then everything is disallowed)
+        groups, agents, rules, in_rules = [], [], [], False
+        for line in txt.splitlines():
+            line = line.split("#", 1)[0].strip()
+            if ":" not in line:
+                continue
+            k, v = (x.strip() for x in line.split(":", 1))
+            k = k.lower()
+            if k == "user-agent":
+                if in_rules:
+                    groups.append((agents, rules))
+                    agents, rules, in_rules = [], [], False
+                agents.append(v.lower())
+            elif k in ("allow", "disallow", "crawl-delay"):
+                in_rules = True
+                rules.append((k, v))
+        if agents:
+            groups.append((agents, rules))
+        mine = [r for a, r in groups if any(x != "*" and x in agent.lower() for x in a)]
+        star = [r for a, r in groups if "*" in a]
+        self.rules = [r for g in (mine or star) for r in g]
+        delays = [v for k, v in self.rules if k == "crawl-delay"]
+        try:
+            self.crawl_delay = float(delays[0]) if delays else 0.0
+        except ValueError:
+            self.crawl_delay = 0.0
+
+    @staticmethod
+    def _match(pattern: str, path: str) -> bool:
+        rx = re.escape(pattern).replace(r"\*", ".*")
+        if rx.endswith(r"\$"):
+            rx = rx[:-2] + "$"
+        return re.match(rx, path) is not None
+
+    def allowed(self, url: str) -> bool:
+        p = urlsplit(url)
+        path = (p.path or "/") + (f"?{p.query}" if p.query else "")
+        best = None                      # longest matching rule wins; Allow wins a tie
+        for k, v in self.rules:
+            if k == "crawl-delay" or not v:
+                continue
+            for cand in {path, unquote(path)}:
+                if self._match(v, cand) and (best is None or len(v) > len(best[1]) or (len(v) == len(best[1]) and k == "allow")):
+                    best = (k, v)
+        return best is None or best[0] == "allow"
+
+
 class Http:
-    """requests.Session with polite retry and a small on-disk cache (default TTL 12h)."""
+    """requests.Session with polite retry, robots.txt compliance, per-host crawl delay
+    and a small on-disk cache (default TTL 12h)."""
 
     def __init__(self, ttl_hours: float = 12, delay: float = 0.3):
         self.s = requests.Session()
         self.s.headers.update({"User-Agent": UA, "Accept-Language": "de-AT,de;q=0.9,en;q=0.8"})
         self.ttl = ttl_hours * 3600
         self.delay = delay
+        self.robots: dict[str, Robots] = {}
+        self.last_hit: dict[str, float] = {}
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+    def _robots(self, url: str) -> Robots:
+        p = urlsplit(url)
+        host = f"{p.scheme}://{p.netloc}"
+        cached = self.robots.get(host)
+        if cached is None or (cached.failed_at and time.time() - cached.failed_at > 60):
+            failed_at = 0.0
+            for attempt in range(2):
+                try:
+                    r = self.s.get(host + "/robots.txt", timeout=20)
+                    if r.status_code >= 500:
+                        raise requests.HTTPError(str(r.status_code))
+                    # 4xx = no rules; an HTML page instead of a robots file (some CMS redirects) = no rules
+                    txt = r.text if r.status_code == 200 and "<html" not in r.text[:500].lower() else ""
+                    break
+                except Exception as e:  # noqa: BLE001 - unreachable robots.txt: treat the site as off-limits (RFC 9309)
+                    if attempt:
+                        log.warning("robots.txt of %s unavailable (%s): not fetching from it for now", host, e)
+                        txt, failed_at = "User-agent: *\nDisallow: /", time.time()   # retried after a minute
+                    else:
+                        time.sleep(2)
+            cached = self.robots[host] = Robots(txt)
+            cached.failed_at = failed_at
+        return cached
+
+    def _wait_for_host(self, url: str, crawl_delay: float) -> None:
+        host = urlsplit(url).netloc
+        wait = max(self.delay, crawl_delay) - (time.time() - self.last_hit.get(host, 0))
+        if wait > 0:
+            time.sleep(wait)
+        self.last_hit[host] = time.time()
 
     def _key(self, method: str, url: str, extra: str) -> Path:
         h = hashlib.sha1(f"{method} {url} {extra}".encode()).hexdigest()
         return CACHE_DIR / h
 
     def get(self, url: str, *, params: dict | None = None, headers: dict | None = None,
-            use_cache: bool = True, timeout: int = 40) -> str:
+            use_cache: bool = True, timeout: int = 40, permitted: bool = False) -> str:
         key = self._key("GET", url, json.dumps(params, sort_keys=True))
-        return self._request("GET", url, key, use_cache, params=params, headers=headers, timeout=timeout)
+        return self._request("GET", url, key, use_cache, permitted, params=params, headers=headers, timeout=timeout)
 
     def post(self, url: str, *, params: dict | None = None, files=None, data=None,
-             use_cache: bool = True, timeout: int = 60) -> str:
+             use_cache: bool = True, timeout: int = 60, permitted: bool = False) -> str:
         extra = json.dumps([params, str(files), str(data)], sort_keys=True, default=str)
         key = self._key("POST", url, extra)
-        return self._request("POST", url, key, use_cache, params=params, files=files, data=data, timeout=timeout)
+        return self._request("POST", url, key, use_cache, permitted, params=params, files=files, data=data, timeout=timeout)
 
-    def _request(self, method, url, key: Path, use_cache: bool, **kw) -> str:
+    def _request(self, method, url, key: Path, use_cache: bool, permitted: bool = False, **kw) -> str:
+        """`permitted=True` skips the robots.txt check. Use it only where the site operator has
+        given us written permission (note who and when next to the call)."""
+        full = requests.Request(method, url, params=kw.get("params")).prepare().url
+        robots = self._robots(full)
+        if not permitted and not robots.allowed(full):
+            raise RobotsDisallowed(f"robots.txt disallows {full}")
         if use_cache and key.exists() and time.time() - key.stat().st_mtime < self.ttl:
             return key.read_text(encoding="utf-8")
         last_err = None
         for attempt in range(3):
             try:
+                self._wait_for_host(full, robots.crawl_delay)
                 r = self.s.request(method, url, **kw)
                 if r.status_code in (429, 502, 503, 504):
                     raise requests.HTTPError(f"{r.status_code}")
@@ -110,7 +209,6 @@ class Http:
                 r.encoding = r.encoding if r.encoding and r.encoding.lower() != "iso-8859-1" else "utf-8"
                 text = r.text
                 key.write_text(text, encoding="utf-8")
-                time.sleep(self.delay)
                 return text
             except Exception as e:  # noqa: BLE001 - network errors of all kinds are retried
                 last_err = e

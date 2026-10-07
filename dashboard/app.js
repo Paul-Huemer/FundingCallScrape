@@ -4,7 +4,7 @@
 
   const DATA = window.DML_DATA || { calls: [], generated_at: null, topics: [] };
   const DAY = 86400000;
-  const FIT_MIN = 65;           // calls scoring below this stay hidden until "Show lower-fit calls"
+  const FIT_MIN = 55;           // calls scoring below this stay hidden until "Show lower-fit calls"
   const TODAY = new Date(new Date().toDateString());
 
   // ------------------------------------------------------------------ storage (per-viewer conveniences only)
@@ -90,13 +90,15 @@
   // ------------------------------------------------------------------ sources: categories → groups
   const CATEGORIES = [
     { key: "at", label: "Austrian agencies", test: (s) => /^(FFG|FWF|OeAD|aws|netidee)\b/.test(s) },
-    { key: "reg", label: "Foundations & regional", test: (s) => /^(Austrian foundations|Upper Austria|Interreg)/.test(s) },
-    { key: "eu", label: "European Union", test: (s) => /^(EU ·|Erasmus\+|EIT)/.test(s) },
+    { key: "reg", label: "Austria & Upper Austria", test: (s) => /^(Austrian foundations|Austrian ministries|Upper Austria|Interreg)/.test(s) },
+    { key: "eu", label: "European Union", test: (s) => /^(EU ·|Erasmus\+|EIT|European partnerships)/.test(s) },
+    { key: "agg", label: "Aggregators & databases", test: (s) => /^(Open calls ·|Call databases)/.test(s) },
     { key: "int", label: "International", test: () => true },
   ];
   const categoryOf = (s) => CATEGORIES.find((c) => c.test(s));
-  const GROUP_ORDER = ["FFG", "FWF", "OeAD", "aws", "netidee", "Austrian foundations", "Upper Austria", "Interreg",
-    "EU · Horizon Europe", "EU · Creative Europe", "Erasmus+", "EU · Erasmus+", "EU · Digital Europe", "EU · CERV", "EIT", "EU · Other", "EU · Cascade",
+  const GROUP_ORDER = ["FFG", "FWF", "OeAD", "aws", "netidee", "Austrian ministries", "Austrian foundations", "Upper Austria · regional", "Upper Austria · City", "Interreg",
+    "EU · Horizon Europe", "EU · Creative Europe", "Erasmus+", "EU · Erasmus+", "EU · Digital Europe", "EU · CERV", "EIT", "EU · Other", "EU · Cascade", "European partnerships",
+    "Open calls · On the Move", "Open calls · S+T+ARTS", "Open calls · EUREKA", "Open calls · Interreg", "Call databases",
     "Games, EdTech", "International foundations", "Multinational"];
   function groupRank(name) {
     const cat = CATEGORIES.indexOf(categoryOf(name));
@@ -106,7 +108,10 @@
   /** Short label for the source tree, cards and table (full name stays in the tooltip and group heading). */
   const SHORT = [
     [/^FFG/, "FFG"], [/^FWF/, "FWF"], [/^OeAD · Sparkling/, "Sparkling Science"], [/^aws/, "aws"], [/^netidee/, "netidee"],
-    [/^Austrian foundations/, "Public funds"], [/^Upper Austria/, "Upper Austria"],
+    [/^Austrian foundations/, "Public funds"], [/^Austrian ministries/, "Ministries & federal"],
+    [/^Upper Austria · City of Linz/, "City of Linz"], [/^Upper Austria/, "Upper Austria"],
+    [/^European partnerships/, "EU partnerships"], [/^Open calls · On the Move/, "On the Move"], [/^Open calls · S\+T\+ARTS/, "S+T+ARTS"],
+    [/^Open calls · EUREKA/, "EUREKA"], [/^Call databases/, "Call databases"],
     [/^Interreg · Bayern/, "Interreg BY–AT"], [/^Interreg · Österreich–Tschechien/, "Interreg AT–CZ"],
     [/^EU · Horizon Europe \(MSCA\)/, "Horizon · MSCA"], [/^EU · Cascade/, "Cascade funding"], [/^EU · CERV/, "CERV"],
     [/^Erasmus\+ · OeAD/, "Erasmus+ (OeAD)"], [/^EU · Erasmus\+/, "Erasmus+ (EU)"], [/^EIT/, "EIT"],
@@ -451,7 +456,8 @@
       ${c.topics?.length ? `<h3>Research areas</h3>${areaTagsHTML(c)}<p class="small muted" style="margin-top:8px">Matched topics: ${esc(c.topics.map((t) => topicShort[t] || t).join(", "))}</p>` : ""}
       <p class="drawer__cta"><a class="btn" href="${esc(c.url)}" target="_blank" rel="noopener">Open official call page ${ICON.ext}</a></p>
       ${c.excerpt ? `<details class="more"><summary>Call text (excerpt)</summary><div class="excerpt">${esc(c.excerpt)}</div>
-        ${c.action_type ? `<p class="small muted" style="margin-top:10px">Type of action: ${esc(c.action_type)}</p>` : ""}</details>` : ""}`;
+        ${c.excerpt_credit ? `<p class="small muted" style="margin-top:6px">Source: <a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.funder)}</a> · ${esc(c.excerpt_credit)}</p>` : ""}</details>` : ""}
+      ${c.action_type ? `<p class="small muted" style="margin-top:10px">Type of action: ${esc(c.action_type)}</p>` : ""}`;
     $("#scrim").hidden = false;
     $("#drawer").hidden = false;
     $("#drawerClose").focus();
