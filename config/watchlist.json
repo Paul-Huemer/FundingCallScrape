@@ -1634,6 +1634,33 @@
       "language": "en"
     },
     {
+      "id": "climatechange-ai-innovation-grants",
+      "name": "Climate Change AI – Innovation Grants",
+      "funder": "Climate Change AI",
+      "group": "International foundations & prizes",
+      "url": "https://www.climatechange.ai/innovation_grants",
+      "closed_patterns": [
+        "does not currently have any future calls"
+      ],
+      "rhythm": "Irregular calls (grant cycles 2022–2025); as of Oct 2026 no future call is planned",
+      "amount": {
+        "max_eur": 150000,
+        "currency": "USD",
+        "note": "typically up to $150k for one-year projects"
+      },
+      "eligibility": "Researchers and organisations worldwide (academia, non-profits, companies, public bodies)",
+      "summary": "Seed grants for projects that apply AI and machine learning to climate change mitigation, adaptation and climate science, and that release public datasets and tools.",
+      "fit_reason": "ML for climate topics – e.g. computer vision on remote-sensing data, data visualisation of climate impacts, interactive tools for adaptation and public engagement.",
+      "fit": "medium",
+      "tags": [
+        "climate",
+        "machine learning",
+        "open data",
+        "datasets"
+      ],
+      "language": "en"
+    },
+    {
       "id": "mozilla-foundation",
       "name": "Mozilla Foundation – incubator cohorts & fellowships",
       "funder": "Mozilla Foundation",

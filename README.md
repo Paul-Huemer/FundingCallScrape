@@ -94,7 +94,7 @@ Results are cached in `data/cache/summaries.json`. Later runs only pay for new o
 | **Open calls · On the Move** | Worldwide arts & culture mobility calls, read only from the lab-related category pages (digital / new media, technology, art & science, cultural heritage, education, disability); scoring drops the rest | From the call text |
 | **Open calls · S+T+ARTS** | The EC's science-technology-arts calls page (residencies, open calls) | From the call text |
 | **Open calls · EUREKA** | Open Eurostars, EUREKA Cluster (ITEA, CELTIC-NEXT, …) and Network Project calls that Austria takes part in. Company-led, so marked *Partner role only*; pitch sessions are skipped | National funding through FFG |
-| **Watchlist** ([config/watchlist.json](config/watchlist.json)): 68 niche funders, see below | Each funder's announcement page is scanned for a future deadline, a "closed / no call" phrase, or fixed yearly dates | Curated from the funder's guidelines, or read from the page |
+| **Watchlist** ([config/watchlist.json](config/watchlist.json)): 69 niche funders, see below | Each funder's announcement page is scanned for a future deadline, a "closed / no call" phrase, or fixed yearly dates | Curated from the funder's guidelines, or read from the page |
 
 ### Watchlist: non-typical funders
 
@@ -110,7 +110,7 @@ These funders have no call database. The scraper checks each funder's page on ev
 | Call databases (browse manually) | Interreg.eu, ERA-LEARN, Heritage Research Hub, OnePass (FundingBox cascade calls), Digital Skills & Jobs Platform. These sites need JavaScript or list too broadly, so the dashboard shows them as monitored links to browse |
 | Erasmus+ · OeAD (national agency) | KA220 Cooperation Partnerships SCH / HED / YOU / ADU (€120k / 250k / 400k), KA210-SCH (€30k / 60k). These are not listed on the EU portal |
 | Games, EdTech & tech-industry grants | Tools Competition (EdTech, $50k–300k), Epic MegaGrants, Unity for Humanity, NLnet / NGI, aws Creative Impact (games studios lead; Austria has no federal games funding), Amazon Research Awards, Google Academic Research Awards, Anthropic AI for Science (API credits) |
-| International foundations & prizes | Prix Ars Electronica / S+T+ARTS, Jacobs Foundation CIFAR Fellowship, Japan Prize, Wikimedia Research Fund, Mozilla Foundation, European Media and Information Fund (disinformation), Wellcome mental health, Zero Project Awards (accessibility) |
+| International foundations & prizes | Prix Ars Electronica / S+T+ARTS, Jacobs Foundation CIFAR Fellowship, Japan Prize, Wikimedia Research Fund, Climate Change AI Innovation Grants, Mozilla Foundation, European Media and Information Fund (disinformation), Wellcome mental health, Zero Project Awards (accessibility) |
 | Multinational programmes | CEI Know-how Exchange, Interreg Alpine Space small-scale projects, EUREGIO Bayerischer Wald–Böhmerwald small-project funds, Interreg Danube |
 
 **Adding a funder** means adding an entry to `config/watchlist.json` with `url`, `group`, `rhythm`, `amount` and `fit`. Optional fields: `deadline_patterns` (a regex with one date group; a date without a year means its next occurrence), `recurring_deadlines` (`["MM-DD"]`), `rolling`, `closed_patterns`, `partner_only` and `no_fetch` (list the funder from the entry alone, for PDF, JavaScript-only or bot-blocking pages). The field reference is at the top of the file.
