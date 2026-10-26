@@ -1,6 +1,6 @@
 {
  "baseline": "2026-10-05",
- "last_run": "2026-10-19T10:44+00:00",
+ "last_run": "2026-10-26T11:02+00:00",
  "first_seen": {
   "eu:CREA-MEDIA-2027-DEVVGIM": "2026-09-30",
   "eu:CREA-MEDIA-2027-INNOVBUSMOD": "2026-09-30",
@@ -261,6 +261,13 @@
   "eu:HORIZON-WIDERA-2025-06-ERA-01": "2026-10-19",
   "fwf:rise-europe": "2026-10-19",
   "interreg-bayaut:p2p-projekte-2027-02-28": "2026-10-19",
-  "watch:climatechange-ai-innovation-grants": "2026-10-19"
+  "watch:climatechange-ai-innovation-grants": "2026-10-19",
+  "eu:CREA-CROSS-2027-INNOVLAB": "2026-10-26",
+  "eu:CREA-CROSS-2027-MEDIALITERACY": "2026-10-26",
+  "eu:CREA-CROSS-2027-JOURPART-COLLABORATIONS": "2026-10-26",
+  "eu:CREA-CROSS-2027-JOURPART-PLURALISM": "2026-10-26",
+  "eu:CREA-CROSS-2027-MFP": "2026-10-26",
+  "eu:IMCAP-2027-INFOME": "2026-10-26",
+  "otm:playful-obscura-arthouse-games-residency-2027-artists-africa-ethiopia": "2026-10-26"
  }
 }
